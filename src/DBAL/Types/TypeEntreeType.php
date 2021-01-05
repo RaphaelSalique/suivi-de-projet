@@ -2,12 +2,12 @@
 
 namespace App\DBAL\Types;
 
-//use Fresh\Bundle\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
+use Fresh\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
 
 /**
  * types d'entrée.
  */
-class TypeEntreeType// extends AbstractEnumType
+class TypeEntreeType extends AbstractEnumType
 {
     const INCIDENT          = 'INCIDENT';
     const INFORMATION   = 'INFORMATION';

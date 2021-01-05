@@ -2,6 +2,9 @@
 
 namespace App\Form;
 
+use App\DBAL\Types\SeveriteType;
+use App\DBAL\Types\StatutType;
+use App\DBAL\Types\TypeEntreeType;
 use App\Entity\ModuleFonctionnaliteType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -14,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
+use App\Entity\Entree;
 
 class EntreeType extends AbstractType
 {
@@ -51,15 +55,15 @@ class EntreeType extends AbstractType
                 ))
             ->add('type', ChoiceType::class, array(
                 'label' => 'type',
-                'choices' => \App\DBAL\Types\TypeEntreeType::getChoices(),
+                'choices' => TypeEntreeType::getChoices(),
                 ))
             ->add('severite', ChoiceType::class, array(
                 'label' => 'severite',
-                'choices' => \App\DBAL\Types\SeveriteType::getChoices(),
+                'choices' => SeveriteType::getChoices(),
                 ))
             ->add('statut', ChoiceType::class, array(
                 'label' => 'statut',
-                'choices' => \App\DBAL\Types\StatutType::getChoices(),
+                'choices' => StatutType::getChoices(),
                 ))
             ->add('commentaires', CollectionType::class, array(
                 'label' => 'commentaires',
@@ -86,14 +90,14 @@ class EntreeType extends AbstractType
     public function setDefaultOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Entree',
+            'data_class' => Entree::class,
         ));
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'entree';
     }

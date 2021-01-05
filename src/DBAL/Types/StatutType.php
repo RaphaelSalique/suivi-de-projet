@@ -2,12 +2,12 @@
 
 namespace App\DBAL\Types;
 
-//use Fresh\Bundle\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
+use Fresh\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
 
 /**
  * statuts.
  */
-class StatutType// extends AbstractEnumType
+class StatutType extends AbstractEnumType
 {
     const ANNULE = 'ANNULE';
     const FERME   = 'FERME';

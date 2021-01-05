@@ -2,12 +2,12 @@
 
 namespace App\DBAL\Types;
 
-//use Fresh\Bundle\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
+use Fresh\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
 
 /**
  * sévérité.
  */
-class SeveriteType// extends AbstractEnumType
+class SeveriteType extends AbstractEnumType
 {
     const NA                 = 'NA';
     const BASSE          = 'BASSE';
