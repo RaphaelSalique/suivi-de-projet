@@ -1,7 +1,10 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-
+        types:
+            SeveriteType: App\DBAL\Types\SeveriteType
+            StatutType: App\DBAL\Types\StatutType
+            TypeEntreeType: App\DBAL\Types\TypeEntreeType
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '13'

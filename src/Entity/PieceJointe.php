@@ -20,11 +20,13 @@ class PieceJointe
     protected $id;
 
     /**
+     * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $path;
 
     /**
+     * @var UploadedFile|null
      * @Assert\Image(maxSize="6000000")
      */
     protected $file;
@@ -41,8 +43,6 @@ class PieceJointe
     private $filenameForRemove;
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -51,13 +51,11 @@ class PieceJointe
     }
 
     /**
-     * Set path.
-     *
-     * @param string $path
+     * @param string|null $path
      *
      * @return PieceJointe
      */
-    public function setPath($path = null)
+    public function setPath($path = null): PieceJointe
     {
         $this->path = $path;
 
@@ -65,23 +63,19 @@ class PieceJointe
     }
 
     /**
-     * Get path.
-     *
-     * @return string
+     * @return string|null
      */
-    public function getPath()
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
     /**
-     * Set entree.
+     * @param Entree $entree
      *
-     * @param \App\Entity\Entree $entree
-     *
-     * @return Entree
+     * @return PieceJointe
      */
-    public function setEntree(\App\Entity\Entree $entree)
+    public function setEntree(Entree $entree): PieceJointe
     {
         $this->entree = $entree;
 
@@ -89,11 +83,9 @@ class PieceJointe
     }
 
     /**
-     * Get entree.
-     *
-     * @return \App\Entity\Entree
+     * @return Entree
      */
-    public function getEntree()
+    public function getEntree(): Entree
     {
         return $this->entree;
     }
@@ -101,9 +93,9 @@ class PieceJointe
     /**
      * On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre.
      *
-     * @param UploadedFile $file
+     * @param UploadedFile|null $file
      */
-    public function setFile(UploadedFile $file = null)
+    public function setFile(UploadedFile $file = null): void
     {
         $this->file = $file;
     }
@@ -111,9 +103,9 @@ class PieceJointe
     /**
      * Get file.
      *
-     * @return string
+     * @return UploadedFile|null
      */
-    public function getFile()
+    public function getFile(): ?UploadedFile
     {
         return $this->file;
     }
@@ -122,7 +114,7 @@ class PieceJointe
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function preUpload()
+    public function preUpload(): void
     {
         if (null !== $this->file) {
             // faites ce que vous voulez pour générer un nom unique
@@ -134,7 +126,7 @@ class PieceJointe
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function upload()
+    public function upload(): void
     {
         if (null === $this->file) {
             return;
@@ -148,7 +140,7 @@ class PieceJointe
     /**
      * @ORM\PreRemove()
      */
-    public function storeFilenameForRemove()
+    public function storeFilenameForRemove(): void
     {
         $this->filenameForRemove = $this->getAbsolutePath();
     }
@@ -156,29 +148,42 @@ class PieceJointe
     /**
      * @ORM\PostRemove()
      */
-    public function removeUpload()
+    public function removeUpload(): void
     {
         if ($this->filenameForRemove) {
             unlink($this->filenameForRemove);
         }
     }
 
+    /**
+     * @return string|null
+     */
     public function getAbsolutePath()
     {
         return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->id.'.'.$this->path;
     }
 
+    /**
+     * @return string|null
+     */
     public function getWebPath()
     {
         return null === $this->path ? null : $this->getUploadDir().'/'.$this->id.'.'.$this->path;
     }
 
+    /**
+     * @todo à corriger
+     * @return string
+     */
     protected function getUploadRootDir()
     {
         // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
         return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
 
+    /**
+     * @return string
+     */
     protected function getUploadDir()
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche

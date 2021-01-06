@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\DBAL\Types\StatutType;
 
@@ -29,27 +30,38 @@ class ModuleFonctionnaliteType
     protected $libelle;
 
     /**
-     * @var Entree
+     * @var Entree[]|ArrayCollection
      *
-     *  @ORM\OneToMany(targetEntity="App\Entity\Entree", mappedBy="module", cascade={"persist"})
-     *  @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="App\Entity\Entree", mappedBy="module", cascade={"persist"})
      */
     protected $entrees;
 
     /**
+     * @var ModuleFonctionnaliteType[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\ModuleFonctionnaliteType", mappedBy="parent")
      **/
     private $children;
 
     /**
+     * @var ModuleFonctionnaliteType
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\ModuleFonctionnaliteType", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      **/
     private $parent;
 
     /**
-     * Get id.
-     *
+     * ModuleFonctionnaliteType constructor.
+     */
+    public function __construct()
+    {
+        $this->entrees = new ArrayCollection();
+        $this->children = new ArrayCollection();
+    }
+
+    //#region setters et getters
+    /**
      * @return int
      */
     public function getId()
@@ -58,62 +70,25 @@ class ModuleFonctionnaliteType
     }
 
     /**
-     * Set libelle.
-     *
-     * @param string $libelle
-     *
-     * @return ModuleFonctionnaliteType
-     */
-    public function setLibelle($libelle)
-    {
-        $this->libelle = $libelle;
-
-        return $this;
-    }
-
-    /**
-     * Get libelle.
-     *
      * @return string
      */
-    public function getLibelle()
+    public function getLibelle(): string
     {
         return $this->libelle;
     }
 
     /**
-     * Add entree.
-     *
-     * @param \App\Entity\Entree $entree
-     *
+     * @param string $libelle
      * @return ModuleFonctionnaliteType
      */
-    public function addEntree(\App\Entity\Entree $entree)
+    public function setLibelle(string $libelle): ModuleFonctionnaliteType
     {
-        $this->entrees[] = $entree;
-        $entree->setModule($this);
-
+        $this->libelle = $libelle;
         return $this;
     }
 
     /**
-     * Remove entree.
-     *
-     * @param \App\Entity\Entree $entree
-     *
-     * @return ModuleFonctionnaliteType
-     */
-    public function removeEntree(\App\Entity\Entree $entree)
-    {
-        $this->entrees->removeElement($entree);
-
-        return $this;
-    }
-
-    /**
-     * Get entrees.
-     *
-     * @return \App\Entity\Entree
+     * @return Entree[]|ArrayCollection
      */
     public function getEntrees()
     {
@@ -121,38 +96,17 @@ class ModuleFonctionnaliteType
     }
 
     /**
-     * Add child.
-     *
-     * @param \App\Entity\ModuleFonctionnaliteType $child
-     *
+     * @param Entree[]|ArrayCollection $entrees
      * @return ModuleFonctionnaliteType
      */
-    public function addChild(\App\Entity\ModuleFonctionnaliteType $child)
+    public function setEntrees($entrees)
     {
-        $this->children[] = $child;
-        $child->setParent($this);
-
+        $this->entrees = $entrees;
         return $this;
     }
 
     /**
-     * Remove child.
-     *
-     * @param \App\Entity\ModuleFonctionnaliteType $child
-     *
-     * @return ModuleFonctionnaliteType
-     */
-    public function removeChild(\App\Entity\ModuleFonctionnaliteType $child)
-    {
-        $this->children->removeElement($child);
-
-        return $this;
-    }
-
-    /**
-     * Get children.
-     *
-     * @return \App\Entity\ModuleFonctionnaliteType
+     * @return ModuleFonctionnaliteType[]|ArrayCollection
      */
     public function getChildren()
     {
@@ -160,30 +114,39 @@ class ModuleFonctionnaliteType
     }
 
     /**
-     * Set parent.
-     *
-     * @param \App\Entity\ModuleFonctionnaliteType $parent
-     *
-     * @return Commentaire
+     * @param ModuleFonctionnaliteType[]|ArrayCollection $children
+     * @return ModuleFonctionnaliteType
      */
-    public function setParent(\App\Entity\ModuleFonctionnaliteType $parent)
+    public function setChildren($children)
     {
-        $this->parent = $parent;
-
+        $this->children = $children;
         return $this;
     }
 
     /**
-     * Get parent.
-     *
-     * @return \App\Entity\ModuleFonctionnaliteType
+     * @return ModuleFonctionnaliteType
      */
-    public function getParent()
+    public function getParent(): ModuleFonctionnaliteType
     {
         return $this->parent;
     }
 
-    public function getBreadcrumb()
+    /**
+     * @param ModuleFonctionnaliteType $parent
+     * @return ModuleFonctionnaliteType
+     */
+    public function setParent(ModuleFonctionnaliteType $parent): ModuleFonctionnaliteType
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    //#endregion setters et getters
+    //#region fonctions métier
+    /**
+     * @return string
+     */
+    public function getBreadcrumb(): string
     {
         $affichage = '';
         if ($this->parent) {
@@ -194,7 +157,10 @@ class ModuleFonctionnaliteType
         return $affichage;
     }
 
-    public function getCompteEntreeOuvertTotal()
+    /**
+     * @return int
+     */
+    public function getCompteEntreeOuvertTotal(): int
     {
         $total = 0;
         foreach ($this->entrees as $entree) {
@@ -209,7 +175,10 @@ class ModuleFonctionnaliteType
         return $total;
     }
 
-    public function getCompteEntreeFermeTotal()
+    /**
+     * @return int
+     */
+    public function getCompteEntreeFermeTotal(): int
     {
         $total = 0;
         foreach ($this->entrees as $entree) {
@@ -224,9 +193,5 @@ class ModuleFonctionnaliteType
         return $total;
     }
 
-    public function __construct()
-    {
-        $this->entrees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    //#endregion fonctions métier
 }

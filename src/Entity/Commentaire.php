@@ -23,8 +23,8 @@ class Commentaire
     /**
      * @var Entree
      *
-     *  @ORM\ManyToOne(targetEntity="App\Entity\Entree", inversedBy="commentaires")
-     *  @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entree", inversedBy="commentaires")
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $entree;
 
@@ -35,129 +35,106 @@ class Commentaire
      */
     protected $commentaire;
 
-//    /**
-//     * @var Entree
-//     *
-//     *  @ORM\ManyToOne(targetEntity="RS\UserBundle\Entity\User")
-//     *  @ORM\JoinColumn(nullable=false)
-//     */
-//    protected $user;
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $user;
 
     /**
-     * @var string
+     * @var \DateTime
      *
      * @ORM\Column(type="datetime")
      */
     protected $dateheure;
 
     /**
-     * Get id.
-     *
+     * Commentaire constructor.
+     */
+    public function __construct()
+    {
+        $this->dateheure = new \DateTime();
+    }
+
+    /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * Set commentaire.
-     *
-     * @param string $commentaire
-     *
+     * @return Entree
+     */
+    public function getEntree(): Entree
+    {
+        return $this->entree;
+    }
+
+    /**
+     * @param Entree $entree
      * @return Commentaire
      */
-    public function setCommentaire($commentaire)
+    public function setEntree(Entree $entree): Commentaire
     {
-        $this->commentaire = $commentaire;
-
+        $this->entree = $entree;
         return $this;
     }
 
     /**
-     * Get commentaire.
-     *
      * @return string
      */
-    public function getCommentaire()
+    public function getCommentaire(): string
     {
         return $this->commentaire;
     }
 
     /**
-     * Set entree.
-     *
-     * @param \App\Entity\Entree $entree
-     *
+     * @param string $commentaire
      * @return Commentaire
      */
-    public function setEntree(\App\Entity\Entree $entree)
+    public function setCommentaire(string $commentaire): Commentaire
     {
-        $this->entree = $entree;
-
+        $this->commentaire = $commentaire;
         return $this;
     }
 
     /**
-     * Get entree.
-     *
-     * @return \App\Entity\Entree
+     * @return User
      */
-    public function getEntree()
+    public function getUser(): User
     {
-        return $this->entree;
+        return $this->user;
     }
 
-//    /**
-//     * Set user.
-//     *
-//     * @param \RS\UserBundle\Entity\User $user
-//     *
-//     * @return Commentaire
-//     */
-//    public function setUser(\RS\UserBundle\Entity\User $user)
-//    {
-//        $this->user = $user;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get user.
-//     *
-//     * @return \App\Entity\User
-//     */
-//    public function getUser()
-//    {
-//        return $this->user;
-//    }
-
     /**
-     * Set dateheure.
-     *
-     * @param string $dateheure
-     *
+     * @param User $user
      * @return Commentaire
      */
-    public function setDateheure(\DateTime $dateheure)
+    public function setUser(User $user): Commentaire
     {
-        $this->dateheure = $dateheure;
-
+        $this->user = $user;
         return $this;
     }
 
     /**
-     * Get dateheure.
-     *
-     * @return string
+     * @return \DateTime
      */
-    public function getDateheure()
+    public function getDateheure(): \DateTime
     {
         return $this->dateheure;
     }
 
-    public function __construct()
+    /**
+     * @param \DateTime $dateheure
+     * @return Commentaire
+     */
+    public function setDateheure(\DateTime $dateheure): Commentaire
     {
-        $this->dateheure = new \DateTime();
+        $this->dateheure = $dateheure;
+        return $this;
     }
 }

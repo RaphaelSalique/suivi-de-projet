@@ -27,13 +27,13 @@ class Recherche
      */
     protected $parametre;
 
-//    /**
-//     * @var Entree
-//     *
-//     *  @ORM\ManyToOne(targetEntity="RS\UserBundle\Entity\User")
-//     *  @ORM\JoinColumn(nullable=false)
-//     */
-//    protected $user;
+    /**
+     * @var User
+     *
+     *  @ORM\ManyToOne(targetEntity="App\Entity\User")
+     *  @ORM\JoinColumn(nullable=false)
+     */
+    protected $user;
 
     /**
      * Get id.
@@ -46,13 +46,11 @@ class Recherche
     }
 
     /**
-     * Set parametre.
-     *
      * @param string $parametre
      *
      * @return Recherche
      */
-    public function setParametre($parametre)
+    public function setParametre($parametre): Recherche
     {
         $this->parametre = $parametre;
 
@@ -60,45 +58,39 @@ class Recherche
     }
 
     /**
-     * Get parametre.
-     *
      * @return string
      */
-    public function getParametre()
+    public function getParametre(): string
     {
         return $this->parametre;
     }
 
-//    /**
-//     * Set user.
-//     *
-//     * @param \RS\UserBundle\Entity\User $user
-//     *
-//     * @return Recherche
-//     */
-//    public function setUser(\RS\UserBundle\Entity\User $user)
-//    {
-//        $this->user = $user;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get user.
-//     *
-//     * @return \App\Entity\User
-//     */
-//    public function getUser()
-//    {
-//        return $this->user;
-//    }
+    /**
+     * @param User $user
+     *
+     * @return Recherche
+     */
+    public function setUser(User $user): Recherche
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
 
     /**
      * affichage des paramètres.
      *
      * @return string
      */
-    public function afficher()
+    public function afficher(): string
     {
         // true permet de convertir la chaîne Json en tableau associatif
         $parametres = explode('&', $this->getParametre());

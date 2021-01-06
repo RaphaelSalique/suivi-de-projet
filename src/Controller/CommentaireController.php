@@ -4,14 +4,14 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Commentaire;
-use App\Entity\Entree;
-use App\Form\CommentaireEditType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Entity\Commentaire;
+use App\Entity\Entree;
+use App\Form\CommentaireEditType;
 
 /**
  * Gestion des commentaires des entrées.
@@ -29,6 +29,11 @@ class CommentaireController extends AbstractController
      */
     private $translator;
 
+    /**
+     * CommentaireController constructor.
+     * @param EntityManagerInterface $manager
+     * @param TranslatorInterface $translator
+     */
     public function __construct(EntityManagerInterface $manager, TranslatorInterface $translator)
     {
         $this->manager = $manager;
