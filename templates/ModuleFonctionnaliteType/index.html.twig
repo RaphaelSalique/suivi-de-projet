@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="container-fluid">
+        <p>
+            <a href="{{ path('app_modulefonctionnalitetype_add') }}" role="button">{{ 'module.creer'|trans() }}</a>
+        </p>
+{% if modules|length > 0 %}
+        <div class="col-lg-4 list-group">
+            {% for module in modules %}
+            <div class="list-group-item">
+                <p>{{ module.libelle }}
+                    <a href="{{ path('app_modulefonctionnalitetype_edit', { 'module': module.id }) }}" role="button" title="{{ 'modifier'|trans() }}">{{ 'modifier'|trans() }}</a>&nbsp;&nbsp;
+                    <a href="{{ path('app_modulefonctionnalitetype_delete', { 'module': module.id }) }}" role="button" title="{{ 'supprimer'|trans() }}">{{ 'supprimer'|trans() }}</i></a>
+                </p>
+                {% for submodule in module.children %}
+                    <p class="col-md-offset-1">
+                        {{ submodule.libelle }}
+                        <a href="{{ path('app_modulefonctionnalitetype_edit', { 'module': submodule.id }) }}" role="button" title="{{ 'modifier'|trans() }}">{{ 'modifier'|trans() }}</i></a>&nbsp;&nbsp;
+                        <a href="{{ path('app_modulefonctionnalitetype_delete', { 'module': submodule.id }) }}" role="button" title="{{ 'supprimer'|trans() }}">{{ 'supprimer'|trans() }}</i></a>
+                    </p>
+                    {% for subsubmodule in submodule.children %}
+                        <p class="col-md-offset-2">
+                            {{ subsubmodule.libelle }}
+                            <a href="{{ path('app_modulefonctionnalitetype_edit', { 'module': subsubmodule.id }) }}" role="button" title="{{ 'modifier'|trans() }}">{{ 'modifier'|trans() }}</i></a>&nbsp;&nbsp;
+                            <a href="{{ path('app_modulefonctionnalitetype_delete', { 'module': subsubmodule.id }) }}" role="button" title="{{ 'supprimer'|trans() }}">{{ 'supprimer'|trans() }}</i></a>
+                        </p>
+                    {% endfor %}
+                {% endfor %}
+                <p class="col-md-offset-1">
+                    <a href="{{ path('app_modulefonctionnalitetype_addsubmodule', { 'module': module.id }) }}" role="button">{{ 'module.submodule.creer'|trans() }}</a>
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+{% else %}
+<div class="row text-danger">
+     Pas de type de module / fonctionnalité
+</div>
+{% endif %}
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function() {
+                $('#modules').dataTable( { "columns": [ {"name": "first", "orderable": true}, {"name": "second", "orderable": false} ] } );
+            } );
+
+
+
+        </script>
+{% endblock javascripts %}

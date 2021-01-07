@@ -216,4 +216,12 @@ class User implements UserInterface
     {
         return in_array('ROLE_ADMIN', $this->roles);
     }
+
+    /**
+     * @return string
+     */
+    public function getNomAffichage(): string
+    {
+        return $this->civilite.' '.$this->prenom.' '.$this->nom;
+    }
 }

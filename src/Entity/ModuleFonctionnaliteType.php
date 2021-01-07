@@ -106,6 +106,33 @@ class ModuleFonctionnaliteType
     }
 
     /**
+     * @param Entree $entree
+     * @return self
+     */
+    public function addEntree(Entree $entree): self
+    {
+        if (!$this->entrees->contains($entree)) {
+            $this->entrees[] = $entree;
+            $entree->setModule($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Entree $entree
+     * @return self
+     */
+    public function removeEntree(Entree $entree): self
+    {
+        if ($this->entrees->contains($entree)) {
+            $this->entrees->removeElement($entree);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return ModuleFonctionnaliteType[]|ArrayCollection
      */
     public function getChildren()
@@ -120,6 +147,34 @@ class ModuleFonctionnaliteType
     public function setChildren($children)
     {
         $this->children = $children;
+        return $this;
+    }
+
+
+    /**
+     * @param ModuleFonctionnaliteType $child
+     * @return self
+     */
+    public function addChild(ModuleFonctionnaliteType $child): self
+    {
+        if (!$this->childs->contains($child)) {
+            $this->children[] = $child;
+            $child->setParent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ModuleFonctionnaliteType $child
+     * @return self
+     */
+    public function removeChild(ModuleFonctionnaliteType $child): self
+    {
+        if ($this->children->contains($child)) {
+            $this->children->removeElement($child);
+        }
+
         return $this;
     }
 

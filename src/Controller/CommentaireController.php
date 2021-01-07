@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use App\Entity\Commentaire;
 use App\Entity\Entree;
 use App\Form\CommentaireEditType;
@@ -28,16 +32,22 @@ class CommentaireController extends AbstractController
      * @var TranslatorInterface
      */
     private $translator;
+    /**
+     * @var Environment
+     */
+    private $twig;
 
     /**
      * CommentaireController constructor.
      * @param EntityManagerInterface $manager
      * @param TranslatorInterface $translator
+     * @param Environment $twig
      */
-    public function __construct(EntityManagerInterface $manager, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $manager, TranslatorInterface $translator, Environment $twig)
     {
         $this->manager = $manager;
         $this->translator = $translator;
+        $this->twig = $twig;
     }
 
     /**
@@ -48,13 +58,16 @@ class CommentaireController extends AbstractController
      * @param Entree $entree
      *
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function indexAction(Entree $entree): Response
     {
         $repository = $this->manager->getRepository(Commentaire::class);
         $commentaires = $repository->findByEntree($entree);
 
-        return $this->render('RSSuiviDeProjetBundle:Commentaire:index.html.twig', array('commentaires' => $commentaires));
+        return new Response($this->twig->render('Commentaire/index.html.twig', array('commentaires' => $commentaires)));
     }
 
     /**
@@ -64,13 +77,19 @@ class CommentaireController extends AbstractController
      *
      * @param Request $request
      * @param Entree $entree
+     *
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function addAction(Request $request, Entree $entree): Response
     {
         $commentaire = new Commentaire();
         $commentaire->setEntree($entree);
-//        $commentaire->setUser($this->getUser());
+        /** @var User $user */
+        $user = $this->getUser();
+        $commentaire->setUser($user);
 
         $form = $this->createForm(CommentaireEditType::class, $commentaire);
         $form->handleRequest($request);
@@ -88,9 +107,9 @@ class CommentaireController extends AbstractController
             return $this->redirect($this->get('router')->generate('app_default_index'));
         }
         // On passe la méthode createView() du formulaire à la commentaire afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:Commentaire:add.html.twig', array(
+        return new Response($this->twig->render('Commentaire/add.html.twig', array(
             'form' => $form->createView(),
-        ));
+        )));
     }
 
     /**
@@ -103,6 +122,9 @@ class CommentaireController extends AbstractController
      * @param Commentaire $commentaire commentaire/fonctionnalité à éditer
      *
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function editAction(Request $request, Entree $entree, Commentaire $commentaire): Response
     {
@@ -121,10 +143,10 @@ class CommentaireController extends AbstractController
             return $this->redirect($this->get('router')->generate('app_default_index'));
         }
         // On passe la méthode createView() du formulaire à la commentaire afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:Commentaire:edit.html.twig', array(
-            'commentaire' => $commentaire,
-            'form' => $form->createView(),
-        ));
+        return new Response($this->twig->render('Commentaire/edit.html.twig', array(
+          'form' => $form->createView(),
+          'commentaire' => $commentaire,
+        )));
     }
 
     /**

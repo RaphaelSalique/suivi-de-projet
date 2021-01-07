@@ -1,0 +1,72 @@
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' "Entree/form.html.twig" %}
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ 'entree.creer'|trans() }}
+{% endblock title %}
+
+{% block body %}
+    <div class="container-fluid">
+    <p class="lead">{{ 'entree.creer'|trans() }}</p>
+    <div class="row">
+        <div class="col-lg-6">
+        {{ form(form) }}
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block javascripts %}
+<script>
+  $(document).ready(function() {
+        var $container = $('div#rs_suivideprojetbundle_entree_commentaires');
+
+        var $addLink = $('<a href="#" id="add_commentaire" class="btn btn-default">{{ 'commentaire.add'|trans() }}</a>');
+        var $paragAddLink = $('<p></p>');
+        $paragAddLink.append($addLink);
+        $container.append($paragAddLink);
+
+        $addLink.click(function(e) {
+          addCommentaire($container);
+          e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+          return false;
+        });
+
+        var index = $container.find(':input').length;
+
+        if (index == 0) {
+          addCommentaire($container);
+        }
+
+        function addCommentaire($container) {
+          var $prototype = $('<div class="form-group"></div>');
+          var $divLabel = $('<div class="col-sm-2"><label class="col-sm-12 control-label required" for="rs_suivideprojetbundle_entree_commentaires_' + index + '_commentaire">{{ 'commentaire.numero'|trans() }}' + (index+1) + '</label></div>');
+          var $divTextarea = $('<div class="col-sm-10"><textarea id="rs_suivideprojetbundle_entree_commentaires_' + index + '_commentaire" name="rs_suivideprojetbundle_entree[commentaires]['+ index + '][commentaire]" required="required" class="form-control"></textarea></div>');
+          $prototype.append($divLabel);
+          $prototype.append($divTextarea);
+          addDeleteLink($divLabel, $prototype);
+
+
+          $container.append($prototype);
+
+          index++;
+        }
+
+         function addDeleteLink($divAjout, $prototype) {
+           $deleteLink = $('<a href="#" title="{{ 'supprimer'|trans() }}" role="button" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></a>');
+           $paragDeleteLink = $('<p></p>');
+           $paragDeleteLink.append($deleteLink);
+
+           $divAjout.append($paragDeleteLink);
+
+           $deleteLink.click(function(e) {
+             $prototype.remove();
+             e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+             return false;
+           });
+         }
+
+
+  });
+</script>
+{% endblock javascripts %}

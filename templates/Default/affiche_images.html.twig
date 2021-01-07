@@ -1,0 +1,7 @@
+{% if entree.images|length > 0 %}
+<ul id="galerie{{ entree.id }}" class="galerie media-list">
+{% for  image in entree.images %}
+    <li class="media"><a href="/uploads/{{ image.getid }}.{{ image.path }}"><img class="img-responsive" src="{{ image.getWebPath() | imagine_filter('my_thumb') }}" alt="{{ image.id }}" /></a></li>
+{% endfor %}
+</ul>
+{% endif %}

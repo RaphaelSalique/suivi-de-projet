@@ -1,0 +1,17 @@
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ 'module.editer'|trans({'%module%': module.libelle}) }}
+{% endblock title %}
+
+{% block body %}
+    <div class="container-fluid">
+    <p class="lead">{{ 'module.editer'|trans({'%module%': module.libelle}) }}</p>
+    <div class="row">
+        <div class="col-lg-6">
+        {{ form(form) }}
+        </div>
+    </div>
+</div>
+{% endblock body %}

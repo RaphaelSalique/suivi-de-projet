@@ -2,12 +2,21 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use App\Entity\Entree;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\ModuleFonctionnaliteType;
 use App\Form\ModuleFonctionnaliteTypeType;
 use App\Form\ModuleFonctionnaliteTypeEditType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Gestion des modules / fonctionnalités.
@@ -17,150 +26,172 @@ use Symfony\Component\Routing\Annotation\Route;
 class ModuleFonctionnaliteTypeController extends AbstractController
 {
     /**
+     * @var EntityManagerInterface
+     */
+    private $manager;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+    /**
+     * @var Environment
+     */
+    private $twig;
+
+    /**
+     * ModuleFonctionnaliteTypeController constructor.
+     * @param EntityManagerInterface $manager
+     * @param TranslatorInterface $translator
+     * @param Environment $twig
+     */
+    public function __construct(EntityManagerInterface $manager, TranslatorInterface $translator, Environment $twig)
+    {
+        $this->manager = $manager;
+        $this->translator = $translator;
+        $this->twig = $twig;
+    }
+
+    /**
      * liste des modules / fonctionnalités.
      *
-     * @Route("/")
+     * @Route("/", methods={"GET"})
      *
-     * @Method({"GET"})
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function indexAction()
+    public function indexAction(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $repository = $entityManager->getRepository('RSSuiviDeProjetBundle:ModuleFonctionnaliteType');
+        $repository = $this->manager->getRepository(ModuleFonctionnaliteType::class);
         $modules = $repository->modulesParents();
 
-        return $this->render('RSSuiviDeProjetBundle:ModuleFonctionnaliteType:index.html.twig', array('modules' => $modules));
+        return new Response($this->twig->render('ModuleFonctionnaliteType/index.html.twig', array('modules' => $modules)));
     }
 
     /**
      * liste des modules ouverts avec le nombre d'entrées.
      *
-     * @Route("/liste")
+     * @Route("/liste", methods={"GET"})
      *
-     * @Method({"GET"})
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function listeModulesAction()
+    public function listeModulesAction(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityRepository = $entityManager->getRepository('RSSuiviDeProjetBundle:ModuleFonctionnaliteType');
+        $entityRepository = $this->manager->getRepository(ModuleFonctionnaliteType::class);
         $modules = $entityRepository->modulesOuvertsPourTous();
 
-        return $this->render('RSSuiviDeProjetBundle:ModuleFonctionnaliteType:modules_tous_users.html.twig', array('modules' => $modules));
+        return new Response($this->twig->render('ModuleFonctionnaliteType/modules_tous_users.html.twig', array('modules' => $modules)));
     }
 
     /**
      * liste des entrées assignées ou créées pour un module donné.
      *
-     * @Route("/liste/{module}")
-     *
-     * @Method({"GET"})
+     * @Route("/liste/{module}", methods={"GET"})
      *
      * @param ModuleFonctionnaliteType $module
      *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function afficherDetailModulesTousUsers(ModuleFonctionnaliteType $module)
+    public function afficherDetailModulesTousUsers(ModuleFonctionnaliteType $module): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityRepository = $entityManager->getRepository('RSSuiviDeProjetBundle:Entree');
+        $entityRepository = $this->manager->getRepository(Entree::class);
         $entrees = $entityRepository->entreesOuvertesParModule($module);
 
-        return $this->render('RSSuiviDeProjetBundle:ModuleFonctionnaliteType:entrees_module.html.twig', array('module' => $module, 'entrees' => $entrees));
+        return new Response($this->twig->render('ModuleFonctionnaliteType/entrees_module.html.twig', array('module' => $module, 'entrees' => $entrees)));
     }
 
     /**
      * ajout d'un module / fonctionnalite.
      *
-     * @Route("/add")
+     * @Route("/add", methods={"GET", "POST"})
      *
-     * @Method({"GET", "POST"})
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function addAction()
+    public function addAction(Request $request): Response
     {
         $module = new ModuleFonctionnaliteType();
 
         $form = $this->createForm(new ModuleFonctionnaliteTypeType(), $module);
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($module);
-                $entityManager->flush();
+        $form->handleRequest($request);
 
-                $translator = $this->get('translator');
-                $messageFlash = $translator->trans('module.add_ok', array('%module%' => $module->getLibelle()));
-                $typeFlash = 'success';
-                $this->get('session')->getFlashBag()->add($typeFlash, $messageFlash);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($module);
+            $this->manager->flush();
 
-                return $this->redirect($this->get('router')->generate('rs_suivideprojet_modulefonctionnalitetype_index'));
-            }
+            $messageFlash = $this->translator->trans('module.add_ok', array('%module%' => $module->getLibelle()));
+            $this->addFlash('success', $messageFlash);
+
+            return $this->redirect($this->get('router')->generate('app_modulefonctionnalitetype_index'));
         }
         // On passe la méthode createView() du formulaire à la module afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:ModuleFonctionnaliteType:add.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return new Response($this->twig->render('ModuleFonctionnaliteType/add.html.twig', array(
+          'form' => $form->createView(),
+        )));
     }
 
     /**
      * ajout d'un module / fonctionnalite.
      *
+     * @param Request $request
      * @param ModuleFonctionnaliteType $module module/fonctionnalité à éditer
      *
-     * @Route("/{module}/addsubmodule")
+     * @Route("/{module}/addsubmodule", methods={"GET", "POST"})
      *
-     * @Method({"GET", "POST"})
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function addSubmoduleAction(ModuleFonctionnaliteType $module)
+    public function addSubmoduleAction(Request $request, ModuleFonctionnaliteType $module): Response
     {
         $submodule = new ModuleFonctionnaliteType();
         $module->addChild($submodule);
 
         $form = $this->createForm(new ModuleFonctionnaliteTypeEditType(), $submodule);
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($submodule);
-                $entityManager->flush();
+        $form->handleRequest($request);
 
-                $translator = $this->get('translator');
-                $messageFlash = $translator->trans('module.submodule.add_ok', array('%module%' => $submodule->getLibelle()));
-                $typeFlash = 'success';
-                $this->get('session')->getFlashBag()->add($typeFlash, $messageFlash);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($submodule);
+            $this->manager->flush();
 
-                return $this->redirect($this->get('router')->generate('rs_suivideprojet_modulefonctionnalitetype_index'));
-            }
+            $messageFlash = $this->translator->trans('module.submodule.add_ok', array('%module%' => $submodule->getLibelle()));
+            $this->addFlash('success', $messageFlash);
+
+            return $this->redirect($this->get('router')->generate('app_modulefonctionnalitetype_index'));
         }
         // On passe la méthode createView() du formulaire à la module afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:ModuleFonctionnaliteType:add.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return new Response($this->twig->render('ModuleFonctionnaliteType/add.html.twig', array(
+          'form' => $form->createView(),
+        )));
     }
 
     /**
      * Displays a form to edit an existing ModuleFonctionnaliteType entity.
      *
+     * @param Request $request
      * @param ModuleFonctionnaliteType $module module/fonctionnalité à éditer
      *
-     * @Route("/{module}/edit")
+     * @Route("/{module}/edit", methods={"GET", "POST"})
      *
-     * @Method({"GET", "POST"})
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function editAction(ModuleFonctionnaliteType $module)
+    public function editAction(Request $request, ModuleFonctionnaliteType $module): Response
     {
         $form = $this->createForm(new ModuleFonctionnaliteTypeEditType(), $module);
         $view = $form->createView();
@@ -171,26 +202,21 @@ class ModuleFonctionnaliteTypeController extends AbstractController
             }
         );
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($module);
-                $entityManager->flush();
-                $translator = $this->get('translator');
-                $messageFlash = $translator->trans('module.maj_ok', array('%module%' => $module->getLibelle()));
-                $typeFlash = 'success';
-                $this->get('session')->getFlashBag()->add($typeFlash, $messageFlash);
+        $form->handleRequest($request);
 
-                return $this->redirect($this->get('router')->generate('rs_suivideprojet_modulefonctionnalitetype_index'));
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->manager->persist($module);
+            $this->manager->flush();
+            $messageFlash = $this->translator->trans('module.maj_ok', array('%module%' => $module->getLibelle()));
+            $this->addFlash('success', $messageFlash);
+
+            return $this->redirect($this->get('router')->generate('app_modulefonctionnalitetype_index'));
         }
         // On passe la méthode createView() du formulaire à la module afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:ModuleFonctionnaliteType:edit.html.twig', array(
+        return new Response($this->twig->render('ModuleFonctionnaliteType/edit.html.twig', array(
+            'form' => $form->createView(),
             'module' => $module,
-            'form' => $view,
-        ));
+        )));
     }
 
     /**
@@ -198,60 +224,55 @@ class ModuleFonctionnaliteTypeController extends AbstractController
      *
      * @param ModuleFonctionnaliteType $module
      *
-     * @Route("/{module}/delete")
+     * @Route("/{module}/delete", methods={"GET", "POST"})
      *
-     * @Method({"GET", "POST"})
-     *
-     * @return Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function deleteAction(ModuleFonctionnaliteType $module)
+    public function deleteAction(ModuleFonctionnaliteType $module): RedirectResponse
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($module);
-        $entityManager->flush();
-        $translator = $this->get('translator');
-        $messageFlash = $translator->trans('module.delete_ok', array('%module%' => $module->getLibelle()));
-        $typeFlash = 'success';
-        $this->get('session')->getFlashBag()->add($typeFlash, $messageFlash);
+        $this->manager->remove($module);
+        $this->manager->flush();
+        $messageFlash = $this->translator->trans('module.delete_ok', array('%module%' => $module->getLibelle()));
+        $this->addFlash('success', $messageFlash);
 
-        return $this->redirect($this->get('router')->generate('rs_suivideprojet_modulefonctionnalitetype_index'));
+        return $this->redirect($this->get('router')->generate('app_modulefonctionnalitetype_index'));
     }
 
     /**
      * liste des modules annulés ou fermés avec le nombre d'entrées.
      *
-     * @Route("/archives")
+     * @Route("/archives", methods={"GET"})
      *
-     * @Method({"GET"})
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function listeModulesArchivesAction()
+    public function listeModulesArchivesAction(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityRepository = $entityManager->getRepository('RSSuiviDeProjetBundle:ModuleFonctionnaliteType');
+        $entityRepository = $this->manager->getRepository(ModuleFonctionnaliteType::class);
         $modules = $entityRepository->modulesFermesPourTous();
 
-        return $this->render('RSSuiviDeProjetBundle:ModuleFonctionnaliteType:archives_tous_users.html.twig', array('modules' => $modules));
+        return new Response($this->twig->render('ModuleFonctionnaliteType/archives_tous_users.html.twig', array('modules' => $modules)));
     }
 
     /**
      * liste des entrées assignées ou créées pour un module donné.
      *
-     * @Route("/archives/{module}")
-     *
-     * @Method({"GET"})
+     * @Route("/archives/{module}", methods={"GET"})
      *
      * @param ModuleFonctionnaliteType $module
      *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function afficherDetailModulesArchivesTousUsers(ModuleFonctionnaliteType $module)
+    public function afficherDetailModulesArchivesTousUsers(ModuleFonctionnaliteType $module): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityRepository = $entityManager->getRepository('RSSuiviDeProjetBundle:Entree');
+        $entityRepository = $this->manager->getRepository(Entree::class);
         $entrees = $entityRepository->entreesFermeesParModule($module);
 
-        return $this->render('RSSuiviDeProjetBundle:ModuleFonctionnaliteType:entrees_module.html.twig', array('module' => $module, 'entrees' => $entrees, 'archive' => true));
+        return new Response($this->twig->render('ModuleFonctionnaliteType/entrees_module.html.twig', array('module' => $module, 'entrees' => $entrees, 'archive' => true)));
     }
 }

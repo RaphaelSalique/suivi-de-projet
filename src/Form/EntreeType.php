@@ -6,6 +6,7 @@ use App\DBAL\Types\SeveriteType;
 use App\DBAL\Types\StatutType;
 use App\DBAL\Types\TypeEntreeType;
 use App\Entity\ModuleFonctionnaliteType;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -28,11 +29,11 @@ class EntreeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('assigne', EntityType::class, array(
-//                'class' => 'RSUserBundle:User',
-//                'property' => 'nomAffichage',
-//                'label' => 'assigne',
-//                ))
+            ->add('assigne', EntityType::class, array(
+                'class' => User::class,
+                'choice_label' => 'nomAffichage',
+                'label' => 'assigne',
+                ))
             ->add('titre', null, array(
                 'label' => 'titre',
                 'required' => false,
@@ -43,7 +44,7 @@ class EntreeType extends AbstractType
                 ))
             ->add('module', EntityType::class, array(
                 'class' => ModuleFonctionnaliteType::class,
-                'property' => 'breadcrumb',
+                'choice_label' => 'breadcrumb',
                 'label' => 'module.label_entree',
                 'expanded' => false,
                 'query_builder' => function (EntityRepository $er) {
@@ -67,7 +68,7 @@ class EntreeType extends AbstractType
                 ))
             ->add('commentaires', CollectionType::class, array(
                 'label' => 'commentaires',
-                'type' => CommentaireType::class,
+                'entry_type' => CommentaireType::class,
                 'allow_add' => true,
                 'allow_delete' => false,
                 ))
@@ -77,7 +78,7 @@ class EntreeType extends AbstractType
                 ))
             ->add('duree', NumberType::class, array(
                 'label' => 'duree',
-                'precision' => 2,
+                'scale' => 2,
                 'required' => false,
                 ))
             ->add('save', SubmitType::class, array('label' => 'envoyer'))

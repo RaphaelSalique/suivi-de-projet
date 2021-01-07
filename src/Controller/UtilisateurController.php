@@ -2,11 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Entree;
+use App\Repository\EntreeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ModuleFonctionnaliteType as Module;
 use App\Entity\User;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Gestion des users.
@@ -16,19 +23,41 @@ use App\Entity\User;
 class UtilisateurController extends AbstractController
 {
     /**
+     * @var EntityManagerInterface
+     */
+    private $manager;
+    /**
+     * @var Environment
+     */
+    private $twig;
+
+    /**
+     * UtilisateurController constructor.
+     * @param EntityManagerInterface $manager
+     * @param Environment $twig
+     */
+    public function __construct(EntityManagerInterface $manager, Environment $twig)
+    {
+        $this->manager = $manager;
+        $this->twig = $twig;
+    }
+
+    /**
      * liste des users.
      *
      * @Route("/", methods={"GET"})
      *
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function indexAction(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityRepository = $entityManager->getRepository('RSUserBundle:User');
+        $entityRepository = $this->manager->getRepository('RSUserBundle:User');
         $users = $entityRepository->findAll();
 
-        return $this->render('RSSuiviDeProjetBundle:Utilisateur:partial.html.twig', array('users' => $users));
+        return new Response($this->twig->render('Utilisateur/partial.html.twig', array('users' => $users)));
     }
 
     /**
@@ -38,15 +67,18 @@ class UtilisateurController extends AbstractController
      *
      * @param User $user
      *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function afficherModulesParUser(User $user)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityRepository = $entityManager->getRepository('RSSuiviDeProjetBundle:ModuleFonctionnaliteType');
+        $this->manager = $this->getDoctrine()->getManager();
+        $entityRepository = $this->manager->getRepository(Module::class);
         $modules = $entityRepository->modulesParUser($user);
 
-        return $this->render('RSSuiviDeProjetBundle:Utilisateur:modules.html.twig', array('modules' => $modules, 'user' => $user));
+        return new Response($this->twig->render('Utilisateur/modules.html.twig', array('modules' => $modules, 'user' => $user)));
     }
 
     /**
@@ -57,14 +89,18 @@ class UtilisateurController extends AbstractController
      * @param User   $user
      * @param Module $module
      *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function afficherDetailModulesParUser(User $user, Module $module)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityRepository = $entityManager->getRepository('RSSuiviDeProjetBundle:Entree');
+        $this->manager = $this->getDoctrine()->getManager();
+        /** @var EntreeRepository $entityRepository */
+        $entityRepository = $this->manager->getRepository(Entree::class);
         $entrees = $entityRepository->entreesParUserEtParModule($user, $module);
 
-        return $this->render('RSSuiviDeProjetBundle:Utilisateur:entrees_module.html.twig', array('module' => $module, 'entrees' => $entrees, 'user' => $user));
+        return new Response($this->twig->render('Utilisateur/entrees_module.html.twig', array('module' => $module, 'entrees' => $entrees, 'user' => $user)));
     }
 }

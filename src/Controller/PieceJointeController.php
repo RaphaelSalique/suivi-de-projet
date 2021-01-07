@@ -2,12 +2,20 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\PieceJointe;
 use App\Entity\Entree;
 use App\Form\ImageType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Gestion des pièces jointes des entrées.
@@ -17,127 +25,150 @@ use Symfony\Component\Routing\Annotation\Route;
 class PieceJointeController extends AbstractController
 {
     /**
+     * @var EntityManagerInterface
+     */
+    private $manager;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+    /**
+     * @var Environment
+     */
+    private $twig;
+
+    /**
+     * PieceJointeController constructor.
+     * @param EntityManagerInterface $manager
+     * @param TranslatorInterface $translator
+     * @param Environment $twig
+     */
+    public function __construct(EntityManagerInterface $manager, TranslatorInterface $translator, Environment $twig)
+    {
+        $this->manager = $manager;
+        $this->translator = $translator;
+        $this->twig = $twig;
+    }
+
+    /**
      * liste des images.
      *
-     * @Route("/")
+     * @Route("/", methods={"GET"})
      *
-     * @Method({"GET"})
+     * @param Entree $entree
      *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function indexAction(Entree $entree)
+    public function indexAction(Entree $entree): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $repository = $entityManager->getRepository('RSSuiviDeProjetBundle:PieceJointe');
+        $repository = $this->manager->getRepository(PieceJointe::class);
         $images = $repository->findByEntree($entree);
 
-        return $this->render('RSSuiviDeProjetBundle:PieceJointe:index.html.twig', array('images' => $images));
+        return new Response($this->twig->render('PieceJointe/index.html.twig', array('images' => $images)));
     }
 
     /**
      * ajout d'un image.
      *
-     * @Route("/add")
+     * @Route("/add", methods={"GET", "POST"})
      *
-     * @Method({"GET", "POST"})
+     * @param Request $request
+     * @param Entree $entree
      *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function addAction(Entree $entree)
+    public function addAction(Request $request, Entree $entree): Response
     {
         $image = new PieceJointe();
         $image->setEntree($entree);
 
         $form = $this->createForm(new ImageType(), $image);
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $entree->setMaj(new \DateTime());
-                $entree->addImage($image);
-                $entityManager->persist($image);
-                $entityManager->persist($entree);
-                $entityManager->flush();
+        $form->handleRequest($request);
 
-                $translator = $this->get('translator');
-                $messageFlash = $translator->trans('image.add_ok');
-                $typeFlash = 'success';
-                $this->get('session')->getFlashBag()->add($typeFlash, $messageFlash);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entree->setMaj(new \DateTime());
+            $entree->addImage($image);
+            $this->manager->persist($image);
+            $this->manager->persist($entree);
+            $this->manager->flush();
 
-                return $this->redirect($this->get('router')->generate('rs_suivideprojet_default_index'));
-            }
+            $messageFlash = $this->translator->trans('image.add_ok');
+            $this->addFlash('success', $messageFlash);
+
+            return $this->redirect($this->get('router')->generate('app_default_index'));
         }
         // On passe la méthode createView() du formulaire à la image afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:PieceJointe:add.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return new Response($this->twig->render('PieceJointe/add.html.twig', array(
+          'form' => $form->createView(),
+        )));
     }
 
     /**
      * Displays a form to edit an existing PieceJointe entity.
      *
+     * @Route("/{image}/edit", methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @param Entree $entree
      * @param PieceJointe $image image/fonctionnalité à éditer
      *
-     * @Route("/{image}/edit")
-     *
-     * @Method({"GET", "POST"})
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function editAction(Entree $entree, PieceJointe $image)
+    public function editAction(Request $request, Entree $entree, PieceJointe $image): Response
     {
         $form = $this->createForm(new ImageType(), $image);
 
-        $request = $this->get('request');
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $entree->setMaj(new \DateTime());
-                $entityManager->persist($entree);
-                $entityManager->persist($image);
-                $entityManager->flush();
-                $translator = $this->get('translator');
-                $messageFlash = $translator->trans('image.maj_ok');
-                $typeFlash = 'success';
-                $this->get('session')->getFlashBag()->add($typeFlash, $messageFlash);
+        $form->handleRequest($request);
 
-                return $this->redirect($this->get('router')->generate('rs_suivideprojet_default_index'));
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->manager = $this->getDoctrine()->getManager();
+            $entree->setMaj(new \DateTime());
+            $this->manager->persist($entree);
+            $this->manager->persist($image);
+            $this->manager->flush();
+            $messageFlash = $this->translator->trans('image.maj_ok');
+            $this->addFlash('success', $messageFlash);
+
+            return $this->redirect($this->get('router')->generate('app_default_index'));
         }
         // On passe la méthode createView() du formulaire à la image afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:PieceJointe:edit.html.twig', array(
-            'image' => $image,
-            'form' => $form->createView(),
-        ));
+        return new Response($this->twig->render('PieceJointe/edit.html.twig', array(
+          'form' => $form->createView(),
+          'image' => $image,
+        )));
     }
 
     /**
      * Deletes a PieceJointe entity.
      *
+     * @Route("/{image}/delete", methods={"GET", "POST"})
+     *
+     * @param Entree $entree
      * @param PieceJointe $image
      *
-     * @Route("/{image}/delete")
-     *
-     * @Method({"GET", "POST"})
-     *
-     * @return Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function deleteAction(Entree $entree, PieceJointe $image)
+    public function deleteAction(Entree $entree, PieceJointe $image): RedirectResponse
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($image);
-        $entree->removePieceJointe($image);
+        $this->manager = $this->getDoctrine()->getManager();
+        $this->manager->remove($image);
+        $entree->removeImage($image);
         $entree->setMaj(new \DateTime());
-        $entityManager->persist($entree);
-        $entityManager->flush();
-        $translator = $this->get('translator');
-        $messageFlash = $translator->trans('image.delete_ok');
-        $typeFlash = 'success';
-        $this->get('session')->getFlashBag()->add($typeFlash, $messageFlash);
+        $this->manager->persist($entree);
+        $this->manager->flush();
+        $messageFlash = $this->translator->trans('image.delete_ok');
+        $this->addFlash('success', $messageFlash);
 
-        return $this->redirect($this->get('router')->generate('rs_suivideprojet_default_index'));
+        return $this->redirect($this->get('router')->generate('app_default_index'));
     }
 }

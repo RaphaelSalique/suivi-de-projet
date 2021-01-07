@@ -1,0 +1,8 @@
+{% if recherches|length > 0 %}
+<a data-toggle="collapse" class="btn btn-primary pull-right" href="#filtres" aria-expanded="false" aria-controls="filtres">{{ 'filtre.liste'|trans() }}</a>
+<ul class="collapse list-group" id="filtres">
+    {% for recherche in recherches %}
+    <li class="list-group-item"><button class="btn" data-parametre="{{ recherche.parametre }}">{{ recherche.afficher }}</button></li>
+    {% endfor %}
+</ul>
+{% endif %}

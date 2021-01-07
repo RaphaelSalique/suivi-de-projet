@@ -17,6 +17,10 @@ use App\Form\EntreeEditType;
 use App\DBAL\Types\StatutType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Accueil du suivi de projet.
@@ -37,18 +41,24 @@ class DefaultController extends AbstractController
      * @var FeedManager
      */
     private $feedManager;
+    /**
+     * @var Environment
+     */
+    private $twig;
 
     /**
      * DefaultController constructor.
      * @param EntityManagerInterface $manager
      * @param TranslatorInterface $translator
      * @param FeedManager $feedManager
+     * @param Environment $twig
      */
-    public function __construct(EntityManagerInterface $manager, TranslatorInterface $translator, FeedManager $feedManager)
+    public function __construct(EntityManagerInterface $manager, TranslatorInterface $translator, FeedManager $feedManager, Environment $twig)
     {
         $this->manager = $manager;
         $this->translator = $translator;
         $this->feedManager = $feedManager;
+        $this->twig = $twig;
     }
 
     /**
@@ -58,6 +68,9 @@ class DefaultController extends AbstractController
      * @IsGranted("ROLE_USER")
      *
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function indexAction(): Response
     {
@@ -66,7 +79,7 @@ class DefaultController extends AbstractController
             $repository = $this->manager->getRepository(Entree::class);
             $entrees = $repository->myFindAll();
 
-            return $this->render('RSSuiviDeProjetBundle:Default:index.html.twig', array('entrees' => $entrees));
+            return new Response($this->twig->render('Default/index.html.twig', array('entrees' => $entrees)));
         }
 
         return $this->redirect($this->generateUrl('app_utilisateur_affichermodulesparuser', array('user' => $user->getId())), 301);
@@ -80,6 +93,9 @@ class DefaultController extends AbstractController
      * @param Request $request
      *
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function addAction(Request $request): Response
     {
@@ -90,7 +106,7 @@ class DefaultController extends AbstractController
         $entree->setCreateur($createur);
         $entree->setStatut(StatutType::OUVERT);
 
-        $form = $this->createForm(new EntreeType(), $entree);
+        $form = $this->createForm(EntreeType::class, $entree);
         $view = $form->createView();
         usort(
             $view->children['module']->vars['choices'],
@@ -115,9 +131,9 @@ class DefaultController extends AbstractController
             return $this->redirect($this->get('router')->generate('app_default_index'));
         }
         // On passe la méthode createView() du formulaire à la entree afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:Entree:add.html.twig', array(
-            'form' => $view,
-        ));
+        return new Response($this->twig->render('Entree/add.html.twig', array(
+          'form' => $form->createView(),
+        )));
     }
 
     /**
@@ -127,6 +143,9 @@ class DefaultController extends AbstractController
      * @param Entree $entree entree/fonctionnalité à éditer
      *
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function editAction(Request $request, Entree $entree)
     {
@@ -151,10 +170,10 @@ class DefaultController extends AbstractController
             return $this->redirect($this->get('router')->generate('app_default_index'));
         }
         // On passe la méthode createView() du formulaire à la entree afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:Entree:edit.html.twig', array(
-            'entree' => $entree,
-            'form' => $view,
-        ));
+        return new Response($this->twig->render('Entree/edit.html.twig', array(
+          'form' => $form->createView(),
+          'entree' => $entree,
+        )));
     }
 
     /**
@@ -167,6 +186,9 @@ class DefaultController extends AbstractController
      * @param Entree $entree entree/fonctionnalité à éditer
      *
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function editFromModuleAction(Request $request, ModuleFonctionnaliteType $module, Entree $entree): Response
     {
@@ -191,10 +213,10 @@ class DefaultController extends AbstractController
             return $this->redirect($this->get('router')->generate('app_modulefonctionnalitetype_afficherdetailmodulestoususers', array('module' => $module->getId())));
         }
         // On passe la méthode createView() du formulaire à la entree afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('RSSuiviDeProjetBundle:Entree:edit.html.twig', array(
-            'entree' => $entree,
-            'form' => $view,
-        ));
+        return new Response($this->twig->render('Entree/edit.html.twig', array(
+          'form' => $form->createView(),
+          'entree' => $entree,
+        )));
     }
 
     /**

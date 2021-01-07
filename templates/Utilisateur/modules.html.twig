@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container-fluid">
+    <p class="lead">{{ 'module.list_user'|trans({'%user%': user.prenom ~ ' ' ~ user.nom}) }}</p>
+    <div class="col-md-4 list-group">
+            {% for module in modules %}
+        <div class="list-group-item">
+            <p>
+                <a href="{{ path('rs_suivideprojet_utilisateur_afficherdetailmodulesparuser', {'user': user.id, 'module': module.id}) }}">{{ module.libelle }} <span class="badge">{{ module.compteEntreeOuvertTotal }}</span></a>
+            </p>
+            {% for submodule in module.children %}
+                <p class="col-md-offset-1">
+                    <a href="{{ path('rs_suivideprojet_utilisateur_afficherdetailmodulesparuser', {'user': user.id, 'module': submodule.id}) }}">{{ submodule.libelle }} <span class="badge">{{ submodule.compteEntreeOuvertTotal }}</span></a>
+                </p>
+                {% for subsubmodule in submodule.children %}
+                    <p class="col-md-offset-2">
+                        <a href="{{ path('rs_suivideprojet_utilisateur_afficherdetailmodulesparuser', {'user': user.id, 'module': subsubmodule.id}) }}">{{ subsubmodule.libelle }} <span class="badge">{{ subsubmodule.compteEntreeOuvertTotal }}</span></a>
+                    </p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+            {% endfor %}
+    </div>
+</div>
+{% endblock body %}

@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="container-fluid">
+        <p>
+            <a href="{{ path('app_modulefonctionnalitetype_add') }}" role="button">{{ 'commentaire.creer'|trans() }}</a>
+        </p>
+        {% if commentaires|length > 0 %}
+            <div class="col-lg-4 list-group">
+                {% for commentaire in commentaires %}
+                    <div class="list-group-item">
+                        <p>{{ commentaire.commentaire }}
+                            <a href="{{ path('app_commentaire_edit', { 'commentaire': commentaire.id }) }}" role="button" title="{{ 'modifier'|trans() }}">{{ 'modifier'|trans() }}</a>&nbsp;&nbsp;
+                            <a href="{{ path('app_commentaire_delete', { 'commentaire': commentaire.id }) }}" role="button" title="{{ 'supprimer'|trans() }}">{{ 'supprimer'|trans() }}</i></a>
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="row text-danger">
+                Pas de commentaire
+            </div>
+        {% endif %}
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            $('#modules').dataTable( { "columns": [ {"name": "first", "orderable": true}, {"name": "second", "orderable": false} ] } );
+        } );
+
+
+
+    </script>
+{% endblock javascripts %}

@@ -2,11 +2,20 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Recherche;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Gestion des recherches des entrées.
@@ -16,49 +25,74 @@ use Symfony\Component\Routing\Annotation\Route;
 class RechercheController extends AbstractController
 {
     /**
+     * @var EntityManagerInterface
+     */
+    private $manager;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+    /**
+     * @var Environment
+     */
+    private $twig;
+
+    /**
+     * RechercheController constructor.
+     * @param EntityManagerInterface $manager
+     * @param TranslatorInterface $translator
+     * @param Environment $twig
+     */
+    public function __construct(EntityManagerInterface $manager, TranslatorInterface $translator, Environment $twig)
+    {
+        $this->manager = $manager;
+        $this->translator = $translator;
+        $this->twig = $twig;
+    }
+
+    /**
      * liste des recherches.
      *
-     * @Route("/")
+     * @Route("/", methods={"GET"})
      *
-     * @Method({"GET"})
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function indexAction()
+    public function indexAction(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $repository = $entityManager->getRepository('RSSuiviDeProjetBundle:Recherche');
+        $repository = $this->manager->getRepository(Recherche::class);
         $recherches = $repository->findByUser($this->getUser());
 
-        return $this->render('RSSuiviDeProjetBundle:Recherche:partial.html.twig', array('recherches' => $recherches));
+        return new Response($this->twig->render('Recherche/partial.html.twig', array('recherches' => $recherches)));
     }
 
     /**
      * ajout des paramètres de recherche.
      *
-     * @Route("/addAjax")
+     * @Route("/addAjax", methods={"GET", "POST"})
      *
-     * @Method({"GET", "POST"})
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     * @return Response
      */
-    public function addAjaxAction()
+    public function addAjaxAction(Request $request): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $request = $this->get('request');
         if ($request->isXmlHttpRequest()) {
             $recherche = new Recherche();
-            $recherche->setUser($this->getUser());
+            /** @var User $suer */
+            $user = $this->getUser();
+            $recherche->setUser($user);
             // Code de sauvegarde
             $parametre = $request->request->get('parametre');
             $recherche->setParametre($parametre);
-            $entityManager->persist($recherche);
-            $entityManager->flush();
+            $this->manager->persist($recherche);
+            $this->manager->flush();
 
             return new JsonResponse($parametre);
         }
 
-        return $this->redirect($this->generateUrl('rs_suivideprojet_default_index'));
+        return $this->redirect($this->generateUrl('app_default_index'));
     }
 
     /**
@@ -66,13 +100,11 @@ class RechercheController extends AbstractController
      *
      * @param Recherche $recherche
      *
-     * @Route("/{recherche}/get")
+     * @Route("/{recherche}/get", methods={"GET"})
      *
-     * @Method({"GET"})
-     *
-     * @return Symfony\Component\HttpFoundation\RedirectResponse
+     * @return JsonResponse
      */
-    public function getAction(Recherche $recherche)
+    public function getAction(Recherche $recherche): JsonResponse
     {
         return new JsonResponse($recherche->getParametre());
     }
@@ -82,22 +114,17 @@ class RechercheController extends AbstractController
      *
      * @param Recherche $recherche
      *
-     * @Route("/{recherche}/delete")
+     * @Route("/{recherche}/delete", methods={"GET", "POST"})
      *
-     * @Method({"GET", "POST"})
-     *
-     * @return Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function deleteAction(Recherche $recherche)
+    public function deleteAction(Recherche $recherche): RedirectResponse
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($recherche);
-        $entityManager->flush();
-        $translator = $this->get('translator');
-        $messageFlash = $translator->trans('filtre.delete_ok');
-        $typeFlash = 'success';
-        $this->get('session')->getFlashBag()->add($typeFlash, $messageFlash);
+        $this->manager->remove($recherche);
+        $this->manager->flush();
+        $messageFlash = $this->translator->trans('filtre.delete_ok');
+        $this->addFlash('success', $messageFlash);
 
-        return $this->redirect($this->get('router')->generate('rs_suivideprojet_default_index'));
+        return $this->redirect($this->get('router')->generate('app_default_index'));
     }
 }

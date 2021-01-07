@@ -192,9 +192,9 @@ class Entree// implements RoutedItemInterface
     }
 
     /**
-     * @return ModuleFonctionnaliteType
+     * @return ModuleFonctionnaliteType|null
      */
-    public function getModule(): ModuleFonctionnaliteType
+    public function getModule(): ?ModuleFonctionnaliteType
     {
         return $this->module;
     }
@@ -336,9 +336,36 @@ class Entree// implements RoutedItemInterface
     }
 
     /**
-     * @return User
+     * @param Commentaire $commentaire
+     * @return self
      */
-    public function getAssigne(): User
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires[] = $commentaire;
+            $commentaire->setEntree($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Commentaire $commentaire
+     * @return self
+     */
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->contains($commentaire)) {
+            $this->commentaires->removeElement($commentaire);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getAssigne(): ?User
     {
         return $this->assigne;
     }
@@ -354,9 +381,9 @@ class Entree// implements RoutedItemInterface
     }
 
     /**
-     * @return User
+     * @return User|null
      */
-    public function getCreateur(): User
+    public function getCreateur(): ?User
     {
         return $this->createur;
     }
@@ -386,6 +413,33 @@ class Entree// implements RoutedItemInterface
     public function setImages($images)
     {
         $this->images = $images;
+        return $this;
+    }
+
+    /**
+     * @param PieceJointe $image
+     * @return self
+     */
+    public function addImage(PieceJointe $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setEntree($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param PieceJointe $image
+     * @return self
+     */
+    public function removeImage(PieceJointe $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+        }
+
         return $this;
     }
 

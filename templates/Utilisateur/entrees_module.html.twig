@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="col-md-9" role="main">
+        <p class="lead">
+            <a href="{{ path('rs_suivideprojet_utilisateur_affichermodulesparuser', {'user': user.id}) }}">{{ user.prenom }} {{ user.nom }}</a> :
+            {% if module.parent and module.parent.parent %}<a href="{{ path('rs_suivideprojet_utilisateur_afficherdetailmodulesparuser', {'user': user.id, 'module': module.parent.parent.id}) }}">{{ module.parent.parent.libelle }}</a> &gt; {% endif %}
+            {% if module.parent %}<a href="{{ path('rs_suivideprojet_utilisateur_afficherdetailmodulesparuser', {'user': user.id, 'module': module.parent.id}) }}">{{ module.parent.libelle }}</a> &gt; {% endif %}
+            {{ module.libelle }}</p>
+        <ul class="list-group">
+                {% for entree in entrees %}
+                    {% include 'RSSuiviDeProjetBundle:ModuleFonctionnaliteType:partial_module.html.twig'  %}
+                {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-3" role="complementary">
+        <nav id="nav_entetes" class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+            <ul id="ul_entetes" class="nav">
+            </ul>
+        </nav>
+    </div>
+</div>
+<footer class="hidden-xs hidden-sm" id="footer_affix">&nbsp;</footer>
+{% endblock body %}
+
+{% block javascripts %}
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+    $('.supprimer').click(function(e) {
+        result = window.confirm('Veuillez confirmer l\'opération de suppression');
+        return result;
+    });
+    $('h4.list-group-item-heading').each(function(index) {
+        var leLi = $("<li></li>");
+        var leA = $('<a href="#' + $(this).parent().attr('id') + '"></a>');
+        var leTexteArray = $(this).html().split("<small>");
+        leA.append(leTexteArray[0]);
+        leLi.append(leA);
+        $("#ul_entetes").append(leLi);
+    });
+    $('body').scrollspy({ target: '#nav_entetes' });
+    $('#nav_entetes').affix({
+      offset: {
+        top: 0,
+        bottom: 70
+      }
+    });
+});
+</script>
+{% endblock javascripts %}

@@ -1,0 +1,9 @@
+{% if (entree.statut == 'FERME') or (entree.statut == 'ANNULE') %}
+ferme
+{% elseif entree.severite == 'HAUTE' %}
+danger
+{% elseif entree.severite == 'MOYENNE' %}
+warning
+{% elseif entree.severite == 'BASSE' %}
+info
+{% endif %}
