@@ -149,7 +149,7 @@ class DefaultController extends AbstractController
      */
     public function editAction(Request $request, Entree $entree)
     {
-        $form = $this->createForm(new EntreeEditType(), $entree);
+        $form = $this->createForm(EntreeEditType::class, $entree);
         $view = $form->createView();
         usort(
             $view->children['module']->vars['choices'],
@@ -192,7 +192,7 @@ class DefaultController extends AbstractController
      */
     public function editFromModuleAction(Request $request, ModuleFonctionnaliteType $module, Entree $entree): Response
     {
-        $form = $this->createForm(new EntreeEditType(), $entree);
+        $form = $this->createForm(EntreeEditType::class, $entree);
         $view = $form->createView();
         usort(
             $view->children['module']->vars['choices'],

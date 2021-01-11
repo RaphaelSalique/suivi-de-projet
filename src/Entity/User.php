@@ -218,10 +218,21 @@ class User implements UserInterface
     }
 
     /**
+     * affichage du nom réduit de l'utilisateur.
+     *
+     * @return string
+     */
+    public function getNomAffichageReduit(): string
+    {
+        return $this->prenom[0] . $this->nom[0];
+    }
+
+    /**
+     * affichage du nom de l'utilisateur.
+     *
      * @return string
      */
     public function getNomAffichage(): string
     {
-        return $this->civilite.' '.$this->prenom.' '.$this->nom;
-    }
-}
+        return $this->prenom.' '.$this->nom;
+    }}

@@ -22,11 +22,12 @@ class ModuleFonctionnaliteTypeEditType extends AbstractType
             ->add('libelle', null, array('label' => 'libelle'))
             ->add('parent', EntityType::class, array(
                 'class' => ModuleFonctionnaliteType::class,
-                'property' => 'breadcrumb',
+                'choice_label' => 'breadcrumb',
                 'label' => 'parent',
                 'expanded' => false,
                 'required' => false,
-                'empty_value' => 'Pas de parent',
+                'placeholder' => 'Pas de parent',
+                'empty_data' => null,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->qbModulesPourTous();
                 },

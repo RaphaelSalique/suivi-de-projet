@@ -44,7 +44,7 @@ class ModuleFonctionnaliteType
     private $children;
 
     /**
-     * @var ModuleFonctionnaliteType
+     * @var ModuleFonctionnaliteType|null
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\ModuleFonctionnaliteType", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
@@ -157,7 +157,7 @@ class ModuleFonctionnaliteType
      */
     public function addChild(ModuleFonctionnaliteType $child): self
     {
-        if (!$this->childs->contains($child)) {
+        if (!$this->children->contains($child)) {
             $this->children[] = $child;
             $child->setParent($this);
         }
@@ -179,18 +179,18 @@ class ModuleFonctionnaliteType
     }
 
     /**
-     * @return ModuleFonctionnaliteType
+     * @return ModuleFonctionnaliteType|null
      */
-    public function getParent(): ModuleFonctionnaliteType
+    public function getParent(): ?ModuleFonctionnaliteType
     {
         return $this->parent;
     }
 
     /**
-     * @param ModuleFonctionnaliteType $parent
+     * @param ModuleFonctionnaliteType|null $parent
      * @return ModuleFonctionnaliteType
      */
-    public function setParent(ModuleFonctionnaliteType $parent): ModuleFonctionnaliteType
+    public function setParent(ModuleFonctionnaliteType $parent = null): ModuleFonctionnaliteType
     {
         $this->parent = $parent;
         return $this;

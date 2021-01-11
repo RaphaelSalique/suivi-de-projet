@@ -47,15 +47,17 @@
                 </tfoot>
                 <tbody>
                        {% for entree in entrees %}
-                        <tr class="{{ include('classe_ligne.html.twig') }}">
+                        <tr class="{{ include('Default/classe_ligne.html.twig') }}">
                             <td><span data-toggle="tooltip" data-placement="top" title="{{ entree.createur.getNomAffichage() }}">{{ entree.createur.getNomAffichageReduit() }}</span></td>
                             <td>{{ entree.reference }}</td>
-                            <td><p><a href="{{ path('app_piecejointe_add', {'entree': entree.id}) }}" class="btn btn-primary" role="button" title="{{ 'image.add'|trans() }}"><i class="glyphicon glyphicon-edit"></i></a></p>{{ include('RSSuiviDeProjetBundle:Default:affiche_images.html.twig') }}</td>
+                            <td><p><a href="{{ path('app_piecejointe_add', {'entree': entree.id}) }}" class="btn btn-primary" role="button" title="{{ 'image.add'|trans() }}"><i class="glyphicon glyphicon-edit"></i></a></p>{{ include('Default/affiche_images.html.twig') }}</td>
                             <td><span data-toggle="tooltip" data-placement="top" title="{{ entree.assigne.getNomAffichage() }}">{{ entree.assigne.getNomAffichageReduit() }}</span></td>
                             <td>{{ entree.module.libelle }}</td>
                             <td>
                                 <a data-toggle="collapse" href="#entreedesc{{ entree.id }}" aria-expanded="false" aria-controls="entreedesc{{ entree.id }}">
-                                {{ entree.description|u.truncate }}
+                                    {% if entree.description|length > 0 %}
+                                        {{ entree.description|u.truncate(10, '...', false) }}
+                                    {% endif %}
                                 </a>
                                 <div class="collapse" id="entreedesc{{ entree.id }}">
                                   <div class="well">

@@ -128,7 +128,7 @@ class CommentaireController extends AbstractController
      */
     public function editAction(Request $request, Entree $entree, Commentaire $commentaire): Response
     {
-        $form = $this->createForm(new CommentaireEditType(), $commentaire);
+        $form = $this->createForm(CommentaireEditType::class, $commentaire);
 
         $form->handleRequest($request);
 

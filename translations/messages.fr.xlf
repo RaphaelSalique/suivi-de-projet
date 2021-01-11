@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="AZGgSm6" resname="suivi_de_projet">
+        <source>suivi_de_projet</source>
+        <target>Suivi de projet</target>
+      </trans-unit>
+      <trans-unit id="zM7rVV1" resname="accueil">
+        <source>accueil</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="3oSKaSY" resname="archives">
+        <source>archives</source>
+        <target>Archives</target>
+      </trans-unit>
+      <trans-unit id="UjZ6ZiK" resname="reference">
+        <source>reference</source>
+        <target>Référence</target>
+      </trans-unit>
+      <trans-unit id="yQRveje" resname="description">
+        <source>description</source>
+        <target>Énoncé / demande / suggestion</target>
+      </trans-unit>
+      <trans-unit id="EwPAaws" resname="type">
+        <source>type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="D.0_zDo" resname="severite">
+        <source>severite</source>
+        <target>Sévérité</target>
+      </trans-unit>
+      <trans-unit id="0exJ3zv" resname="importance">
+        <source>importance</source>
+        <target>Importance</target>
+      </trans-unit>
+      <trans-unit id="_VEcnv0" resname="statut">
+        <source>statut</source>
+        <target>Statut</target>
+      </trans-unit>
+      <trans-unit id="E9hTAG9" resname="sponsor">
+        <source>sponsor</source>
+        <target>Sponsor</target>
+      </trans-unit>
+      <trans-unit id="QIvAvGB" resname="testable">
+        <source>testable</source>
+        <target>Correction à tester</target>
+      </trans-unit>
+      <trans-unit id=".oQhvc0" resname="testable_entete">
+        <source>testable_entete</source>
+        <target>À tester</target>
+      </trans-unit>
+      <trans-unit id="ZgI8Nqp" resname="duree">
+        <source>duree</source>
+        <target>Durée</target>
+      </trans-unit>
+      <trans-unit id="1NaPczd" resname="module_fonctionnalite">
+        <source>module_fonctionnalite</source>
+        <target>Module / Fonctionnalité</target>
+      </trans-unit>
+      <trans-unit id="rbBXlep" resname="envoyer">
+        <source>envoyer</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit id="g0KJ6ww" resname="supprimer">
+        <source>supprimer</source>
+        <target>supprimer</target>
+      </trans-unit>
+      <trans-unit id="QTUg.ZY" resname="libelle">
+        <source>libelle</source>
+        <target>Libellé</target>
+      </trans-unit>
+      <trans-unit id="EI8yWgH" resname="commentaires">
+        <source>commentaires</source>
+        <target>Commentaires / réponses</target>
+      </trans-unit>
+      <trans-unit id="eG5SDSy" resname="date_commentaire">
+        <source>date_commentaire</source>
+        <target> le %date% à %heure%</target>
+      </trans-unit>
+      <trans-unit id="MCbJAtj" resname="index_date_commentaire">
+        <source>index_date_commentaire</source>
+        <target> le %dateheure%</target>
+      </trans-unit>
+      <trans-unit id="lZpF1E5" resname="de">
+        <source>de</source>
+        <target>De</target>
+      </trans-unit>
+      <trans-unit id="M4atkVn" resname="assigne">
+        <source>assigne</source>
+        <target>Assigné à</target>
+      </trans-unit>
+      <trans-unit id="OSXv6Wp" resname="concerne">
+        <source>concerne</source>
+        <target>Concerne : %user%</target>
+      </trans-unit>
+      <trans-unit id="fBAoPMR" resname="createur">
+        <source>createur</source>
+        <target>Créé par</target>
+      </trans-unit>
+      <trans-unit id="AAM4x9a" resname="initiateur">
+        <source>initiateur</source>
+        <target>Initiateur : %user%</target>
+      </trans-unit>
+      <trans-unit id="HDttWr2" resname="reponse_par">
+        <source>reponse_par</source>
+        <target>Réponse par %user%</target>
+      </trans-unit>
+      <trans-unit id="vHLIynC" resname="piece_jointe">
+        <source>piece_jointe</source>
+        <target>Pièce jointe</target>
+      </trans-unit>
+      <trans-unit id="yISIkW8" resname="intervenants">
+        <source>intervenants</source>
+        <target>Intervenants</target>
+      </trans-unit>
+      <trans-unit id="fkCj6C2" resname="importance_detail">
+        <source>importance_detail</source>
+        <target>Importance : %incidence%</target>
+      </trans-unit>
+      <trans-unit id="Vperyno" resname="nature">
+        <source>nature</source>
+        <target>Nature : %type%</target>
+      </trans-unit>
+      <trans-unit id="p7TcVtr" resname="contribution">
+        <source>contribution</source>
+        <target>{1}Contribution|]1, Inf]Contributions</target>
+      </trans-unit>
+      <trans-unit id="5HEllos" resname="parent">
+        <source>parent</source>
+        <target>Parent</target>
+      </trans-unit>
+      <trans-unit id="tfrUaJy" resname="commentaire.add">
+        <source>commentaire.add</source>
+        <target>Ajouter une contribution</target>
+      </trans-unit>
+      <trans-unit id="QomKMJB" resname="commentaire.numero">
+        <source>commentaire.numero</source>
+        <target>n°</target>
+      </trans-unit>
+      <trans-unit id="CDzHOl1" resname="commentaire.add_ok">
+        <source>commentaire.add_ok</source>
+        <target>Création d'une nouvelle contribution OK</target>
+      </trans-unit>
+      <trans-unit id="SLVgRsr" resname="commentaire.maj_ok">
+        <source>commentaire.maj_ok</source>
+        <target>Modification de la contribution OK</target>
+      </trans-unit>
+      <trans-unit id="doSEAy4" resname="commentaire.delete_ok">
+        <source>commentaire.delete_ok</source>
+        <target>Suppression de la contribution OK</target>
+      </trans-unit>
+      <trans-unit id="PV8r0EP" resname="commentaire.creer">
+        <source>commentaire.creer</source>
+        <target>Créer une contribution</target>
+      </trans-unit>
+      <trans-unit id="r0JMYAa" resname="commentaire.editer">
+        <source>commentaire.editer</source>
+        <target>Modifier une contribution</target>
+      </trans-unit>
+      <trans-unit id="PQFR6iX" resname="image.add">
+        <source>image.add</source>
+        <target>Ajouter une image</target>
+      </trans-unit>
+      <trans-unit id="9hX3nXA" resname="image.numero">
+        <source>image.numero</source>
+        <target>n°</target>
+      </trans-unit>
+      <trans-unit id="9bKAgKI" resname="image.add_ok">
+        <source>image.add_ok</source>
+        <target>Ajout d'une nouvelle image OK</target>
+      </trans-unit>
+      <trans-unit id="eRb6oUx" resname="image.maj_ok">
+        <source>image.maj_ok</source>
+        <target>Modification de l'image OK</target>
+      </trans-unit>
+      <trans-unit id="G2KweSL" resname="image.delete_ok">
+        <source>image.delete_ok</source>
+        <target>Suppression de l'image OK</target>
+      </trans-unit>
+      <trans-unit id="zvsADSI" resname="image.creer">
+        <source>image.creer</source>
+        <target>Ajouter une image</target>
+      </trans-unit>
+      <trans-unit id="x.cL5OQ" resname="image.editer">
+        <source>image.editer</source>
+        <target>Modifier une image</target>
+      </trans-unit>
+      <trans-unit id="VEWiZ3H" resname="entree.add_ok">
+        <source>entree.add_ok</source>
+        <target>Création d'un nouveau ticket OK</target>
+      </trans-unit>
+      <trans-unit id="bD5FafK" resname="entree.maj_ok">
+        <source>entree.maj_ok</source>
+        <target>Modification du ticket OK</target>
+      </trans-unit>
+      <trans-unit id="1nxNPp7" resname="entree.delete_ok">
+        <source>entree.delete_ok</source>
+        <target>Suppression du ticket OK</target>
+      </trans-unit>
+      <trans-unit id="sRnINX1" resname="entree.creer">
+        <source>entree.creer</source>
+        <target>Créer un nouveau ticket</target>
+      </trans-unit>
+      <trans-unit id="A8BwHtw" resname="entree.editer">
+        <source>entree.editer</source>
+        <target>Modifier un ticket</target>
+      </trans-unit>
+      <trans-unit id="AHyD2NR" resname="entree.feed">
+        <source>entree.feed</source>
+        <target>Tickets récemment mis à jour ou créés</target>
+      </trans-unit>
+      <trans-unit id="5yULG3l" resname="entree.dateheure">
+        <source>entree.dateheure</source>
+        <target>Date : %date% à %heure%</target>
+      </trans-unit>
+      <trans-unit id="J087djn" resname="entree.module.list_user">
+        <source>entree.module.list_user</source>
+        <target>%user% : %module%</target>
+      </trans-unit>
+      <trans-unit id="Rrhu_M0" resname="module.add_ok">
+        <source>module.add_ok</source>
+        <target>Vous avez créé le chapitre %module%</target>
+      </trans-unit>
+      <trans-unit id="5RE5vVX" resname="module.maj_ok">
+        <source>module.maj_ok</source>
+        <target>Vous avez modifié le chapitre %module%</target>
+      </trans-unit>
+      <trans-unit id="h8w4w6M" resname="module.delete_ok">
+        <source>module.delete_ok</source>
+        <target>Vous avez supprimé le chapitre %module%</target>
+      </trans-unit>
+      <trans-unit id="1pEHxME" resname="module.editer">
+        <source>module.editer</source>
+        <target>Éditer "%module%"</target>
+      </trans-unit>
+      <trans-unit id="qlO6Ac0" resname="module.lien">
+        <source>module.lien</source>
+        <target>Gestion des chapitres et sous chapitres</target>
+      </trans-unit>
+      <trans-unit id="_yAuuvU" resname="module.list_user">
+        <source>module.list_user</source>
+        <target>Liste des chapitres avec le nombre de tickets associés à %user%</target>
+      </trans-unit>
+      <trans-unit id="T6LTvDn" resname="module.list">
+        <source>module.list</source>
+        <target>Liste des chapitres avec le nombre de tickets ouverts</target>
+      </trans-unit>
+      <trans-unit id="4jEA2qE" resname="module.list_archive">
+        <source>module.list_archive</source>
+        <target>Liste des chapitres avec le nombre de tickets fermés</target>
+      </trans-unit>
+      <trans-unit id="P2jGkkG" resname="module.creer">
+        <source>module.creer</source>
+        <target>Créer un chapitre</target>
+      </trans-unit>
+      <trans-unit id="cXbEd2N" resname="module.label_entree">
+        <source>module.label_entree</source>
+        <target>Chapitre / Sous chapitre</target>
+      </trans-unit>
+      <trans-unit id="xB_i9rb" resname="module.avertissement">
+        <source>module.avertissement</source>
+        <target>Si le chapitre / sous-chapitre voulu n'est pas listé ci-dessous, veuillez le paramétrer via la barre de menu</target>
+      </trans-unit>
+      <trans-unit id="TsHTX.v" resname="module.submodule.creer">
+        <source>module.submodule.creer</source>
+        <target>Créer un sous chapitre</target>
+      </trans-unit>
+      <trans-unit id="iplB4bV" resname="module.submodule.add_ok">
+        <source>module.submodule.add_ok</source>
+        <target>Vous avez créé le sous-chapitre %module%</target>
+      </trans-unit>
+      <trans-unit id="F.XIi8f" resname="filtre.enregistrer">
+        <source>filtre.enregistrer</source>
+        <target>Sauver les filtres</target>
+      </trans-unit>
+      <trans-unit id="Ejn1bZA" resname="filtre.delete_ok">
+        <source>filtre.delete_ok</source>
+        <target>Le filtre a été supprimé</target>
+      </trans-unit>
+      <trans-unit id="5pjNh70" resname="filtre.liste">
+        <source>filtre.liste</source>
+        <target>Liste des filtres (cliquez pour voir / masquer)</target>
+      </trans-unit>
+      <trans-unit id="7oF7jXj" resname="layout.logout">
+        <source>layout.logout</source>
+        <target>Se déconnecter</target>
+      </trans-unit>
+      <trans-unit id="xwYQJiS" resname="modifier">
+        <source>modifier</source>
+        <target>__modifier</target>
+      </trans-unit>
+      <trans-unit id="fffnahQ" resname="tous">
+        <source>tous</source>
+        <target>__tous</target>
+      </trans-unit>
+      <trans-unit id="3Qy_pmG" resname="piecejointe.creer">
+        <source>piecejointe.creer</source>
+        <target>__piecejointe.creer</target>
+      </trans-unit>
+      <trans-unit id="OG_N1os" resname="titre">
+        <source>titre</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="1BkYNHF" resname="Incident">
+        <source>Incident</source>
+        <target>Incident</target>
+      </trans-unit>
+      <trans-unit id="3qcRGoQ" resname="Information">
+        <source>Information</source>
+        <target>Information</target>
+      </trans-unit>
+      <trans-unit id="Ge1Av2L" resname="Process">
+        <source>Process</source>
+        <target>Process</target>
+      </trans-unit>
+      <trans-unit id="ZQ.6ghJ" resname="Suggestion">
+        <source>Suggestion</source>
+        <target>Suggestion</target>
+      </trans-unit>
+      <trans-unit id="ZNP9PpG" resname="1 N/A">
+        <source>1 N/A</source>
+        <target>1 N/A</target>
+      </trans-unit>
+      <trans-unit id="nxj9L6D" resname="2 Basse">
+        <source>2 Basse</source>
+        <target>2 Basse</target>
+      </trans-unit>
+      <trans-unit id="dxeFpOR" resname="3 Moyenne">
+        <source>3 Moyenne</source>
+        <target>3 Moyenne</target>
+      </trans-unit>
+      <trans-unit id="grgAyZ7" resname="4 Haute">
+        <source>4 Haute</source>
+        <target>4 Haute</target>
+      </trans-unit>
+      <trans-unit id="lIUMYCG" resname="5 Bloquante">
+        <source>5 Bloquante</source>
+        <target>5 Bloquante</target>
+      </trans-unit>
+      <trans-unit id=".g6TsNE" resname="Annulé">
+        <source>Annulé</source>
+        <target>Annulé</target>
+      </trans-unit>
+      <trans-unit id="GHf4Q0o" resname="Fermé">
+        <source>Fermé</source>
+        <target>Fermé</target>
+      </trans-unit>
+      <trans-unit id="om_c4ov" resname="Ouvert">
+        <source>Ouvert</source>
+        <target>Ouvert</target>
+      </trans-unit>
+      <trans-unit id="s4PV8cG" resname="__name__label__">
+        <source>__name__label__</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="4KnNNnZ" resname="Commentaire">
+        <source>Commentaire</source>
+        <target>Commentaire</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

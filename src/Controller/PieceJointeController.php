@@ -88,7 +88,7 @@ class PieceJointeController extends AbstractController
         $image = new PieceJointe();
         $image->setEntree($entree);
 
-        $form = $this->createForm(new ImageType(), $image);
+        $form = $this->createForm(ImageType::class, $image);
 
         $form->handleRequest($request);
 
@@ -126,7 +126,7 @@ class PieceJointeController extends AbstractController
      */
     public function editAction(Request $request, Entree $entree, PieceJointe $image): Response
     {
-        $form = $this->createForm(new ImageType(), $image);
+        $form = $this->createForm(ImageType::class, $image);
 
         $form->handleRequest($request);
 

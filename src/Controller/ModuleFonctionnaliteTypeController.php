@@ -122,7 +122,7 @@ class ModuleFonctionnaliteTypeController extends AbstractController
     {
         $module = new ModuleFonctionnaliteType();
 
-        $form = $this->createForm(new ModuleFonctionnaliteTypeType(), $module);
+        $form = $this->createForm(ModuleFonctionnaliteTypeType::class, $module);
 
         $form->handleRequest($request);
 
@@ -159,7 +159,7 @@ class ModuleFonctionnaliteTypeController extends AbstractController
         $submodule = new ModuleFonctionnaliteType();
         $module->addChild($submodule);
 
-        $form = $this->createForm(new ModuleFonctionnaliteTypeEditType(), $submodule);
+        $form = $this->createForm(ModuleFonctionnaliteTypeEditType::class, $submodule);
 
         $form->handleRequest($request);
 
@@ -193,7 +193,7 @@ class ModuleFonctionnaliteTypeController extends AbstractController
      */
     public function editAction(Request $request, ModuleFonctionnaliteType $module): Response
     {
-        $form = $this->createForm(new ModuleFonctionnaliteTypeEditType(), $module);
+        $form = $this->createForm(ModuleFonctionnaliteTypeEditType::class, $module);
         $view = $form->createView();
         usort(
             $view->children['parent']->vars['choices'],
