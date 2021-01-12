@@ -7,10 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\PieceJointe;
 use App\Entity\Entree;
 use App\Form\ImageType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -83,7 +85,7 @@ class PieceJointeController extends AbstractController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function addAction(Request $request, Entree $entree): Response
+    public function addAction(Request $request, Entree $entree, SluggerInterface $slugger): Response
     {
         $image = new PieceJointe();
         $image->setEntree($entree);
@@ -93,6 +95,29 @@ class PieceJointeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pieceJointe = $form->get('file')->getData();
+
+            if ($pieceJointe) {
+                $originalFilename = pathinfo($pieceJointe->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid('', true).'.'.$pieceJointe->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pieceJointe->move(
+                      $this->getParameter('pieces_jointes_repertoire'),
+                      $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $image->setPath($newFilename);
+            }
+
             $entree->setMaj(new \DateTime());
             $entree->addImage($image);
             $this->manager->persist($image);
