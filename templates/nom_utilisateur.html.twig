@@ -1,4 +1,6 @@
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-{{ app.user.prenom }} {{ app.user.nom }}&nbsp;&nbsp;
-<a class="navbar-link" id="user-deconnexion" title="{{ 'layout.logout'|trans() }}" href="{{ path('app_logout') }}"><i class="glyphicon glyphicon-log-out"></i></a>
+    <div class="navbar-item">
+        {{ app.user.prenom }} {{ app.user.nom }}&nbsp;&nbsp;
+    </div>
+    <a class="navbar-item" id="user-deconnexion" title="{{ 'layout.logout'|trans() }}" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i></a>
 {% endif %}

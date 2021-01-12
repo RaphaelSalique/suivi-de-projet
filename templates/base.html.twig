@@ -1,116 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html class="has-navbar-fixed-top">
 <head>
     <meta charset="UTF-8" />
     <title>{% block title %}{{ 'suivi_de_projet'|trans() }}{% endblock %}</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css">
-    <link rel="stylesheet" href="//cdn.datatables.net/colvis/1.1.2/css/dataTables.colVis.css">
-    <style>
-        .nowrap {
-            white-space: nowrap;
-        }
-
-        .ferme, .ferme td {
-            background: #ccc;
-        }
-
-        span[data-toggle="tooltip"] {
-            border-bottom: 1px dashed #666;
-        }
-
-        .list-group-item {
-            -webkit-transition: all 1s;
-            transition: all 1s;
-        }
-
-        .list-group-item:hover {
-            border-radius: 20px;
-            background: #f7f7f7;
-        }
-
-        body {
-            position: relative;
-        }
-
-        blockquote {
-            font-size: 1em;
-        }
-
-        #lightbox {
-            background: rgba(0,0,0,0.5);
-            position: absolute;
-            z-index: 1000;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-        }
-
-        #lightbox-img {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-        }
-
-        #lightbox-close {
-            position: absolute;
-            top: 0;
-            right: 20px;
-            font-size: 3em;
-            cursor: pointer;
-        }
-
-        .lightbox-off {
-            display: none;
-        }
-
-        #nav_entetes .nav a {
-            color: #000;
-        }
-
-        #nav_entetes .nav > .active > a {
-            font-weight: 700;
-            color: rgb(86, 61, 124);
-            background-color: transparent;
-            border-left: 2px solid rgb(86, 61, 124);
-        }
-
-        #footer_affix {
-            height: 500px;
-        }
-    </style>
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ absolute_url(asset('build/base.css')) }}"/>
+        {{ encore_entry_link_tags('bulma') }}
+    {% endblock %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <link href="{{ path('app_default_feed') }}" rel="alternate" title="{{ 'entree.feed' }}" type="application/atom+xml">
     {% endif %}
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <span class="navbar-brand">{{ 'suivi_de_projet'|trans() }}</span>
+<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="{{ path('app_default_index') }}">{{ 'accueil'|trans() }}</a>
+            <a class="navbar-item" href="{{ path('app_modulefonctionnalitetype_index') }}">{{ 'module.lien'|trans() }}</a>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and false %}
+                {{ render(controller('RSSuiviDeProjetBundle:Utilisateur:index')) }}
+            {% endif %}
+            <a class="navbar-item" href="{{ path('app_modulefonctionnalitetype_listemodulesarchives') }}">{{ 'archives'|trans() }}</a>
+            <a class="navbar-item" href="{{ path('app_default_add') }}">{{ 'entree.creer'|trans() }}</a>
         </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ path('app_default_index') }}">{{ 'accueil'|trans() }}</a></li>
-                <li><a href="{{ path('app_modulefonctionnalitetype_index') }}">{{ 'module.lien'|trans() }}</a></li>
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and false %}
-                    {{ render(controller('RSSuiviDeProjetBundle:Utilisateur:index')) }}
-                {% endif %}
-                <li><a href="{{ path('app_modulefonctionnalitetype_listemodulesarchives') }}">{{ 'archives'|trans() }}</a></li>
-                <li><a href="{{ path('app_default_add') }}">{{ 'entree.creer'|trans() }}</a></li>
-            </ul>
-            <p class="navbar-text navbar-right">{{ include('nom_utilisateur.html.twig') }}</p>
-        </div><!-- /.navbar-collapse -->
+        <div class="navbar-end">
+            {{ include('nom_utilisateur.html.twig') }}
+        </div>
     </div>
 </nav>
 
@@ -132,11 +54,6 @@
 
 {% block body %}{% endblock %}
 
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
-<script src="//cdn.datatables.net/colvis/1.1.2/js/dataTables.colVis.min.js"></script>
 {% block javascripts %}{% endblock %}
 </body>
 </html>

@@ -1,8 +1,12 @@
 {% if recherches|length > 0 %}
-<a data-toggle="collapse" class="btn btn-primary pull-right" href="#filtres" aria-expanded="false" aria-controls="filtres">{{ 'filtre.liste'|trans() }}</a>
-<ul class="collapse list-group" id="filtres">
-    {% for recherche in recherches %}
-    <li class="list-group-item"><button class="btn" data-parametre="{{ recherche.parametre }}">{{ recherche.afficher }}</button></li>
-    {% endfor %}
-</ul>
+    <a class="navbar-link">
+        {{ 'filtre.liste'|trans() }}
+    </a>
+    <div class="navbar-dropdown" id="filtres">
+        {% for recherche in recherches %}
+            <a class="navbar-item">
+                <button class="btn" data-parametre="{{ recherche.parametre }}">{{ recherche.afficher }}</button>
+            </a>
+        {% endfor %}
+    </div>
 {% endif %}
