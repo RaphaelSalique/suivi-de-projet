@@ -77,7 +77,7 @@ class Entree// implements RoutedItemInterface
     protected $statut;
 
     /**
-     * @var string|null
+     * @var boolean|null
      *
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -282,18 +282,18 @@ class Entree// implements RoutedItemInterface
     }
 
     /**
-     * @return string|null
+     * @return boolean|null
      */
-    public function getTestable(): ?string
+    public function isTestable(): ?bool
     {
         return $this->testable;
     }
 
     /**
-     * @param string|null $testable
+     * @param bool|null $testable
      * @return Entree
      */
-    public function setTestable(?string $testable): Entree
+    public function setTestable(?bool $testable): Entree
     {
         $this->testable = $testable;
         return $this;

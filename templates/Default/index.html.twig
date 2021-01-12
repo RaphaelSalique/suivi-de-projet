@@ -75,7 +75,7 @@
                                     <div class="panel-heading" role="tab" id="commentairehead{{ commentaire.id }}">
                                       <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#entreecomm{{ entree.id }}" href="#commentairedetail{{ commentaire.id }}" aria-expanded="false" aria-controls="commentairedetail{{ commentaire.id }}">
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ commentaire.user.getNomAffichage() }}">{{ commentaire.user.getNomAffichageReduit() }}</span> {{ 'index_date_commentaire'|trans({ '%dateheure%': commentaire.dateheure|date('d/m/Y à H:i') }) }} : {{ commentaire.commentaire|u.truncate }}
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ commentaire.user.getNomAffichage() }}">{{ commentaire.user.getNomAffichageReduit() }}</span> {{ 'index_date_commentaire'|trans({ '%dateheure%': commentaire.dateheure|date('d/m/Y à H:i') }) }} : {{ commentaire.commentaire|u.truncate(10, '...', false) }}
                                         </a>
                                       </h4>
                                     </div>

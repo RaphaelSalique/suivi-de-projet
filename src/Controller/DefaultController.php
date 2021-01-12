@@ -147,7 +147,7 @@ class DefaultController extends AbstractController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function editAction(Request $request, Entree $entree)
+    public function editAction(Request $request, Entree $entree): Response
     {
         $form = $this->createForm(EntreeEditType::class, $entree);
         $view = $form->createView();

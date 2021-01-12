@@ -12,7 +12,7 @@ class CommentaireEditType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('save', SubmitType::class, array('label' => 'envoyer'))
@@ -22,13 +22,13 @@ class CommentaireEditType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'commentaireedit';
     }
 
-    public function getParent()
+    public function getParent(): string
     {
-        return new CommentaireType();
+        return CommentaireType::class;
     }
 }

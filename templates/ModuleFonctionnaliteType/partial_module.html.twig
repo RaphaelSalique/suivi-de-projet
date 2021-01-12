@@ -6,16 +6,16 @@
             <p class="list-group-item-heading">{{ 'initiateur'|trans({'%user%': entree.createur.prenom ~ " " ~ entree.createur.nom}) }} -
                 {{ 'entree.dateheure'|trans({'%date%': entree.dateheure|date('d/m/Y'), '%heure%': entree.dateheure|date('H:i')}) }}</p>
             <p class="list-group-item-heading">{{ 'concerne'|trans({'%user%': entree.assigne.prenom ~ " " ~ entree.assigne.nom}) }}</p>
-            <p class="text-{{ include('RSSuiviDeProjetBundle:Default:classe_ligne.html.twig') }}">{{ 'nature'|trans({'%type%':entree.type|readable}) }} - {{ 'importance_detail'|trans({'%incidence%': entree.severite|readable|split(' ')|reverse|first|lower}) }}</p>
+            <p class="text-{{ include('Default/classe_ligne.html.twig') }}">{{ 'nature'|trans({'%type%':entree.type|readable_enum}) }} - {{ 'importance_detail'|trans({'%incidence%': entree.severite|readable_enum|split(' ')|reverse|first|lower}) }}</p>
             <p class="well">{{ entree.description|nl2br }}</p>
             <p><a href="{{ path('app_piecejointe_add', {'entree': entree.id}) }}">{{ 'image.add'|trans() }}</a></p>
-            {{ include('RSSuiviDeProjetBundle:Default:affiche_images.html.twig') }}
+            {{ include('Default/affiche_images.html.twig') }}
             {% if entree.commentaires|length > 0 %}
-            <p>{{ 'contribution'|transchoice(entree.commentaires|length) }}
+            <p>{{ 'contribution'|trans({'contributions': entree.commentaires|length}) }}
                 {% for commentaire in entree.commentaires %}
             <blockquote>
                 <p>{{ commentaire.commentaire|nl2br }}</p>
-                <footer>{{ 'reponse_par'|trans({'%user%': commentaire.user.prenom ~ " " ~ commentaire.user.nom}) }} {{ 'date_commentaire'|trans({'%date%': commentaire.dateheure|date('d/m/Y'), '%heure%': commentaire.dateheure|date('H:i')}) }} - <a href="{{ path('app_commentaire_edit', { 'entree': entree.id, 'commentaire': commentaire.id }) }}">{{ 'modifier'|trans() }}</a>&nbsp;/&nbsp;<a href="{{ path('app_commentaire_delete', { 'entree': entree.id, 'commentaire': commentaire.id }) }}" class="supprimer">{{ 'supprimer'|trans() }}</a></footer>
+                <footer>{{ 'reponse_par'|trans({'user': commentaire.user.prenom ~ " " ~ commentaire.user.nom}) }} {{ 'date_commentaire'|trans({'%date%': commentaire.dateheure|date('d/m/Y'), '%heure%': commentaire.dateheure|date('H:i')}) }} - <a href="{{ path('app_commentaire_edit', { 'entree': entree.id, 'commentaire': commentaire.id }) }}">{{ 'modifier'|trans() }}</a>&nbsp;/&nbsp;<a href="{{ path('app_commentaire_delete', { 'entree': entree.id, 'commentaire': commentaire.id }) }}" class="supprimer">{{ 'supprimer'|trans() }}</a></footer>
             </blockquote>
                 {% endfor %}
             {% endif %}

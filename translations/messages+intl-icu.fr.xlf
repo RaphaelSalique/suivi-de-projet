@@ -79,11 +79,11 @@
       </trans-unit>
       <trans-unit id="eG5SDSy" resname="date_commentaire">
         <source>date_commentaire</source>
-        <target> le %date% à %heure%</target>
+        <target> le {date} à {heure}</target>
       </trans-unit>
       <trans-unit id="MCbJAtj" resname="index_date_commentaire">
         <source>index_date_commentaire</source>
-        <target> le %dateheure%</target>
+        <target> le {dateheure}</target>
       </trans-unit>
       <trans-unit id="lZpF1E5" resname="de">
         <source>de</source>
@@ -95,7 +95,7 @@
       </trans-unit>
       <trans-unit id="OSXv6Wp" resname="concerne">
         <source>concerne</source>
-        <target>Concerne : %user%</target>
+        <target>Concerne : {user}</target>
       </trans-unit>
       <trans-unit id="fBAoPMR" resname="createur">
         <source>createur</source>
@@ -103,11 +103,11 @@
       </trans-unit>
       <trans-unit id="AAM4x9a" resname="initiateur">
         <source>initiateur</source>
-        <target>Initiateur : %user%</target>
+        <target>Initiateur : {user}</target>
       </trans-unit>
       <trans-unit id="HDttWr2" resname="reponse_par">
         <source>reponse_par</source>
-        <target>Réponse par %user%</target>
+        <target>Réponse par {user}</target>
       </trans-unit>
       <trans-unit id="vHLIynC" resname="piece_jointe">
         <source>piece_jointe</source>
@@ -119,15 +119,15 @@
       </trans-unit>
       <trans-unit id="fkCj6C2" resname="importance_detail">
         <source>importance_detail</source>
-        <target>Importance : %incidence%</target>
+        <target>Importance : {incidence}</target>
       </trans-unit>
       <trans-unit id="Vperyno" resname="nature">
         <source>nature</source>
-        <target>Nature : %type%</target>
+        <target>Nature : {type}</target>
       </trans-unit>
       <trans-unit id="p7TcVtr" resname="contribution">
         <source>contribution</source>
-        <target>{1}Contribution|]1, Inf]Contributions</target>
+        <target>{contributions, plural, =0 {0 contribution} one {1 contribution} other {# contributions}}</target>
       </trans-unit>
       <trans-unit id="5HEllos" resname="parent">
         <source>parent</source>
@@ -215,27 +215,27 @@
       </trans-unit>
       <trans-unit id="5yULG3l" resname="entree.dateheure">
         <source>entree.dateheure</source>
-        <target>Date : %date% à %heure%</target>
+        <target>Date : {date} à {heure}</target>
       </trans-unit>
       <trans-unit id="J087djn" resname="entree.module.list_user">
         <source>entree.module.list_user</source>
-        <target>%user% : %module%</target>
+        <target>{user} : {module}</target>
       </trans-unit>
       <trans-unit id="Rrhu_M0" resname="module.add_ok">
         <source>module.add_ok</source>
-        <target>Vous avez créé le chapitre %module%</target>
+        <target>Vous avez créé le chapitre {module}</target>
       </trans-unit>
       <trans-unit id="5RE5vVX" resname="module.maj_ok">
         <source>module.maj_ok</source>
-        <target>Vous avez modifié le chapitre %module%</target>
+        <target>Vous avez modifié le chapitre {module}</target>
       </trans-unit>
       <trans-unit id="h8w4w6M" resname="module.delete_ok">
         <source>module.delete_ok</source>
-        <target>Vous avez supprimé le chapitre %module%</target>
+        <target>Vous avez supprimé le chapitre {module}</target>
       </trans-unit>
       <trans-unit id="1pEHxME" resname="module.editer">
         <source>module.editer</source>
-        <target>Éditer "%module%"</target>
+        <target>Éditer "{module}"</target>
       </trans-unit>
       <trans-unit id="qlO6Ac0" resname="module.lien">
         <source>module.lien</source>
@@ -243,7 +243,7 @@
       </trans-unit>
       <trans-unit id="_yAuuvU" resname="module.list_user">
         <source>module.list_user</source>
-        <target>Liste des chapitres avec le nombre de tickets associés à %user%</target>
+        <target>Liste des chapitres avec le nombre de tickets associés à {user}</target>
       </trans-unit>
       <trans-unit id="T6LTvDn" resname="module.list">
         <source>module.list</source>
@@ -271,7 +271,7 @@
       </trans-unit>
       <trans-unit id="iplB4bV" resname="module.submodule.add_ok">
         <source>module.submodule.add_ok</source>
-        <target>Vous avez créé le sous-chapitre %module%</target>
+        <target>Vous avez créé le sous-chapitre {module}</target>
       </trans-unit>
       <trans-unit id="F.XIi8f" resname="filtre.enregistrer">
         <source>filtre.enregistrer</source>
