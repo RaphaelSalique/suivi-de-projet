@@ -305,61 +305,77 @@
         <source>titre</source>
         <target>Titre</target>
       </trans-unit>
-      <trans-unit id="1BkYNHF" resname="Incident">
+      <trans-unit id="NqYG1Ih" resname="Incident">
         <source>Incident</source>
         <target>Incident</target>
       </trans-unit>
-      <trans-unit id="3qcRGoQ" resname="Information">
+      <trans-unit id="HLC6El_" resname="Information">
         <source>Information</source>
         <target>Information</target>
       </trans-unit>
-      <trans-unit id="Ge1Av2L" resname="Process">
+      <trans-unit id="4IO9g_n" resname="Process">
         <source>Process</source>
         <target>Process</target>
       </trans-unit>
-      <trans-unit id="ZQ.6ghJ" resname="Suggestion">
+      <trans-unit id="Un9ryFe" resname="Suggestion">
         <source>Suggestion</source>
         <target>Suggestion</target>
       </trans-unit>
-      <trans-unit id="ZNP9PpG" resname="1 N/A">
+      <trans-unit id="s_Gczin" resname="1 N/A">
         <source>1 N/A</source>
         <target>1 N/A</target>
       </trans-unit>
-      <trans-unit id="nxj9L6D" resname="2 Basse">
+      <trans-unit id="KeulriS" resname="2 Basse">
         <source>2 Basse</source>
         <target>2 Basse</target>
       </trans-unit>
-      <trans-unit id="dxeFpOR" resname="3 Moyenne">
+      <trans-unit id="HDKN9u6" resname="3 Moyenne">
         <source>3 Moyenne</source>
         <target>3 Moyenne</target>
       </trans-unit>
-      <trans-unit id="grgAyZ7" resname="4 Haute">
+      <trans-unit id="ezOh3jr" resname="4 Haute">
         <source>4 Haute</source>
         <target>4 Haute</target>
       </trans-unit>
-      <trans-unit id="lIUMYCG" resname="5 Bloquante">
+      <trans-unit id="LvFDTRm" resname="5 Bloquante">
         <source>5 Bloquante</source>
         <target>5 Bloquante</target>
       </trans-unit>
-      <trans-unit id=".g6TsNE" resname="Annulé">
+      <trans-unit id="WFJM6B8" resname="Annulé">
         <source>Annulé</source>
         <target>Annulé</target>
       </trans-unit>
-      <trans-unit id="GHf4Q0o" resname="Fermé">
+      <trans-unit id="kfDL2gE" resname="Fermé">
         <source>Fermé</source>
         <target>Fermé</target>
       </trans-unit>
-      <trans-unit id="om_c4ov" resname="Ouvert">
+      <trans-unit id="sncP73E" resname="Ouvert">
         <source>Ouvert</source>
         <target>Ouvert</target>
       </trans-unit>
-      <trans-unit id="s4PV8cG" resname="__name__label__">
+      <trans-unit id="le023yQ" resname="__name__label__">
         <source>__name__label__</source>
         <target>Nom</target>
       </trans-unit>
-      <trans-unit id="4KnNNnZ" resname="Commentaire">
+      <trans-unit id="SNPoFla" resname="Commentaire">
         <source>Commentaire</source>
         <target>Commentaire</target>
+      </trans-unit>
+      <trans-unit id="kkUI0SJ" resname="authentification">
+        <source>authentification</source>
+        <target>Authentification</target>
+      </trans-unit>
+      <trans-unit id="giREF.l" resname="email">
+        <source>email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="XohImNo" resname="password">
+        <source>password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit id="FnlB2ze" resname="se_connecter">
+        <source>se_connecter</source>
+        <target>Se connecter</target>
       </trans-unit>
     </body>
   </file>
