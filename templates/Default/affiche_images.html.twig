@@ -1,11 +1,23 @@
 {% if entree.images|length > 0 %}
-<ul id="galerie{{ entree.id }}" class="galerie media-list">
-{% for  image in entree.images %}
-    <li class="media">
-        <a href="{{ asset('uploads/pieces_jointes/' ~ image.path) }}">
-            <img class="img-responsive" src="{{ asset('uploads/pieces_jointes/' ~ image.path) | imagine_filter('my_thumb') }}" alt="{{ image.id }}" />
+    <div class="showhidecontainer">
+        <a class="showhidedisplayer" aria-haspopup="true">
+            <span class="icon is-small"><i class="fas fa-paperclip" aria-hidden="false"></i></span>
         </a>
-    </li>
-{% endfor %}
-</ul>
+        <ul id="galerie{{ entree.id }}" class="showhidedisplayed is-hidden galerie media-list">
+            {% for  image in entree.images %}
+                <li class="media">
+                    <div class="modal" id="modalimage{{ image.id }}">
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            <p class="image">
+                                <img src="{{ asset('uploads/pieces_jointes/' ~ image.path) }}" alt="">
+                            </p>
+                        </div>
+                        <button class="modal-close is-large" aria-label="close"></button>
+                    </div>
+                    <img data-target="modalimage{{ image.id }}" class="modal-button img-responsive" src="{{ asset('uploads/pieces_jointes/' ~ image.path) | imagine_filter('my_thumb') }}" alt="{{ image.id }}" />
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endif %}

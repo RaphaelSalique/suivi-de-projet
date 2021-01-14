@@ -1,12 +1,19 @@
 {% if recherches|length > 0 %}
-    <a class="navbar-link">
-        {{ 'filtre.liste'|trans() }}
-    </a>
-    <div class="navbar-dropdown" id="filtres">
-        {% for recherche in recherches %}
-            <a class="navbar-item">
-                <button class="btn" data-parametre="{{ recherche.parametre }}">{{ recherche.afficher }}</button>
-            </a>
-        {% endfor %}
+    <div class="dropdown">
+        <div class="dropdown-trigger">
+            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                <span>{{ 'filtre.liste'|trans() }}</span>
+                <span class="icon is-small"><i class="fas fa-angle-down" aria-hidden="true"></i></span>
+            </button>
+        </div>
+        <div class="dropdown-menu" id="filtres">
+            <div class="dropdown-content">
+                {% for recherche in recherches %}
+                    <a class="dropdown-item">
+                        <button class="btn" data-parametre="{{ recherche.parametre }}">{{ recherche.afficher }}</button>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endif %}

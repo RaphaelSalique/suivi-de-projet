@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <title>{% block title %}{{ 'suivi_de_projet'|trans() }}{% endblock %}</title>
     {% block stylesheets %}
-        <link rel="stylesheet" href="{{ absolute_url(asset('build/base.css')) }}"/>
         {{ encore_entry_link_tags('bulma') }}
     {% endblock %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
