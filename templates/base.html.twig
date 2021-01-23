@@ -9,6 +9,7 @@
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <link href="{{ path('app_default_feed') }}" rel="alternate" title="{{ 'entree.feed' }}" type="application/atom+xml">
     {% endif %}
+    {% block javascripts %}{% endblock %}
 </head>
 <body>
 <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
@@ -46,7 +47,5 @@
 
     {% block body %}{% endblock %}
 </div>
-
-{% block javascripts %}{% endblock %}
 </body>
 </html>
