@@ -81,7 +81,7 @@ class EntreeType extends AbstractType
                 'scale' => 2,
                 'required' => false,
                 ))
-            ->add('save', SubmitType::class, array('label' => 'envoyer'))
+            ->add('save', SubmitType::class, array('label' => 'envoyer', 'attr' => ['class' => 'button is-link']))
         ;
     }
 

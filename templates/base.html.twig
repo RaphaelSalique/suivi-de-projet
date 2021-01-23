@@ -5,6 +5,7 @@
     <title>{% block title %}{{ 'suivi_de_projet'|trans() }}{% endblock %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags('bulma') }}
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <link href="{{ path('app_default_feed') }}" rel="alternate" title="{{ 'entree.feed' }}" type="application/atom+xml">
@@ -12,7 +13,7 @@
     {% block javascripts %}{% endblock %}
 </head>
 <body>
-<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+<nav class="navbar has-shadow is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
@@ -36,7 +37,7 @@
     </div>
 </nav>
 
-<div class="container">
+<div id="main" class="container section">
     {% for type, flashMessages in app.session.flashbag.all() %}
         {% for flashMessage in flashMessages %}
             <div class="alert alert-{{ type }}">

@@ -81,6 +81,7 @@
                                         {% if entree.description|length > 0 %}
                                             {{ entree.description|u.truncate(10, '...', false) }}
                                         {% endif %}
+                                        <i class="fas fa-arrow fa-arrow-right" aria-hidden="true"></i>
                                     </a>
                                     <div class="showhidedisplayed is-hidden" id="entreedesc{{ entree.id }}">
                                         {{ entree.description|nl2br }}
@@ -110,6 +111,7 @@
                                                 </span>&nbsp;
                                                 {{ 'index_date_commentaire'|trans({ '%dateheure%': commentaire.dateheure|date('d/m/Y à H:i') }) }}
                                                 &nbsp;:&nbsp;{{ commentaire.commentaire|u.truncate(10, '...', false) }}
+                                                <i class="fas fa-arrow fa-arrow-right" aria-hidden="true"></i>
                                             </a>
                                             <div class="showhidedisplayed is-hidden" id="entreecomm{{ commentaire.id }}">
                                                 <p>
@@ -134,7 +136,7 @@
                             <td>{{ entree.statut|readable_enum }}</td>
                             <td>{{ entree.afficheTestable }}</td>
                             <td>{{ entree.afficheDuree }}</td>
-                            <td>{{ "%'.04d"|format(entree.id) }}<p><a href="{{ path('app_default_edit', { 'entree': entree.id }) }}" class="btn btn-primary" role="button" title="{{ 'modifier'|trans() }}"><i class="glyphicon glyphicon-edit"></i></a></p></td>
+                            <td>{{ "%'.04d"|format(entree.id) }}<p><a href="{{ path('app_default_edit', { 'entree': entree.id }) }}" class="btn btn-primary" role="button" title="{{ 'modifier'|trans() }}"><i class="fas fa-edit"></i></a></p></td>
                         </tr>
                        {% endfor %}
                 </tbody>
@@ -149,87 +151,6 @@
 {% endblock body %}
 
 {% block javascripts %}
-    <script>
-        function getAll(selector) {
-            var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
-
-            return Array.prototype.slice.call(parent.querySelectorAll(selector), 0);
-        }
-        // galerie : afficher / masquer
-        var $galeries = getAll('.showhidedisplayer');
-
-        if ($galeries.length > 0) {
-            $galeries.forEach(function ($el) {
-                $el.addEventListener('click', function (event) {
-                    event.stopPropagation();
-                    $el.parentElement.querySelector('.showhidedisplayed').classList.toggle('is-hidden');
-                });
-            });
-        }
-
-        // dropdown
-        var $dropdowns = getAll('.dropdown:not(.is-hoverable)');
-
-        if ($dropdowns.length > 0) {
-            $dropdowns.forEach(function ($el) {
-                $el.addEventListener('click', function (event) {
-                    event.stopPropagation();
-                    $el.classList.toggle('is-active');
-                });
-            });
-
-            document.addEventListener('click', function (event) {
-                closeDropdowns();
-            });
-        }
-
-        function closeDropdowns() {
-            $dropdowns.forEach(function ($el) {
-                $el.classList.remove('is-active');
-            });
-        }
-        // modal (thumbnails)
-        var rootEl = document.documentElement;
-        var $modals = getAll('.modal');
-        var $modalButtons = getAll('.modal-button');
-        var $modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
-
-        if ($modalButtons.length > 0) {
-            $modalButtons.forEach(function ($el) {
-                $el.addEventListener('click', function () {
-                    var target = $el.dataset.target;
-                    openModal(target);
-                });
-            });
-        }
-
-        if ($modalCloses.length > 0) {
-            $modalCloses.forEach(function ($el) {
-                $el.addEventListener('click', function () {
-                    closeModals();
-                });
-            });
-        }
-
-        function openModal(target) {
-            var $target = document.getElementById(target);
-            rootEl.classList.add('is-clipped');
-            $target.classList.add('is-active');
-        }
-
-        function closeModals() {
-            rootEl.classList.remove('is-clipped');
-            $modals.forEach(function ($el) {
-                $el.classList.remove('is-active');
-            });
-        }
-
-        document.addEventListener('keydown', function (event) {
-            var e = event || window.event;
-            if (e.keyCode === 27) {
-                closeModals();
-                closeDropdowns();
-            }
-        });
-    </script>
+    {{ parent() }}
+    {{ encore_entry_script_tags('defaultindex') }}
 {% endblock javascripts %}
