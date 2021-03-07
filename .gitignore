@@ -1,3 +1,6 @@
+web/css
+web/media
+web/uploads
 
 ###> symfony/framework-bundle ###
 /.env.local
