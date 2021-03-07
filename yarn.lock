@@ -7858,7 +7858,7 @@ fsevents@~2.3.1:
     sass-loader: ^11.0.1
     stimulus: ^2.0.0
     style-loader: ^2.0.0
-    webpack-notifier: ^1.6.0
+    webpack-notifier: ^1.13.0
   languageName: unknown
   linkType: soft
 
@@ -9429,7 +9429,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"webpack-notifier@npm:^1.6.0":
+"webpack-notifier@npm:^1.13.0":
   version: 1.13.0
   resolution: "webpack-notifier@npm:1.13.0"
   dependencies:
