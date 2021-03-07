@@ -1180,14 +1180,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@symfony/stimulus-bridge@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@symfony/stimulus-bridge@npm:1.1.0"
+"@symfony/stimulus-bridge@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@symfony/stimulus-bridge@npm:2.0.2"
   dependencies:
-    webpack-virtual-modules: ^0.3.2
+    acorn: ^8.0.5
   peerDependencies:
     stimulus: ^2.0
-  checksum: 62964c02c1b4e5c92e6961f47e0fc5e3cb6a60751a3842b1856517337c59579cfdb527ed002bba6f36603c220113a9c8306986346e6a8f25c13a1c07e51ebdce
+  checksum: db601b25571278a07802e5bffd543f9b8a161306ce6063229447f7ca8f693cbc7d566722047018764ab874a312514ab3de8af8da5af6d3375db8286b543e881c
   languageName: node
   linkType: hard
 
@@ -1540,6 +1540,15 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: ec4707ffa0f41dcd9ef67e5f0938a9e8c83f2f1ffcbd3588b07126833d2ca3a6573e094c511162ad40f658a267c6533c6dd5eedead6844d50f7d8d0be080cc55
+  languageName: node
+  linkType: hard
+
+"acorn@npm:^8.0.5":
+  version: 8.0.5
+  resolution: "acorn@npm:8.0.5"
+  bin:
+    acorn: bin/acorn
+  checksum: b138585ca3948355fb0125105576b90326d4bdfd610f6c8bab382d281c9ea99d2360280c0aa4548f2e4b924eea2256a273140c49fc1be46d8a3b4b3bfefd8a62
   languageName: node
   linkType: hard
 
@@ -7840,7 +7849,7 @@ fsevents@~2.3.1:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@fortawesome/fontawesome-free": ^5.15.1
-    "@symfony/stimulus-bridge": ^1.1.0
+    "@symfony/stimulus-bridge": ^2.0.2
     "@symfony/webpack-encore": ^0.32.0
     bulma: ^0.9.2
     core-js: ^3.9.1
@@ -9446,15 +9455,6 @@ fsevents@~2.3.1:
   dependencies:
     debug: ^3.0.0
   checksum: f06d8f3e8427dd8231d9102e5f3f765329f49f4e6fe3d274bce9c06e386e633a29bca256dd98dfa836334488518e17dcddc0e8d087988cd17d206f25481ebe3c
-  languageName: node
-  linkType: hard
-
-"webpack-virtual-modules@npm:^0.3.2":
-  version: 0.3.2
-  resolution: "webpack-virtual-modules@npm:0.3.2"
-  dependencies:
-    debug: ^3.0.0
-  checksum: 807ef15ed3ab9e0467c789930d94b88d10e356df202bb61f5673e929e17db1520d5da214c1e9b8025ec4a06d96c8cf7e6b894a4f0a69c0f6d41b89b436d853b1
   languageName: node
   linkType: hard
 
