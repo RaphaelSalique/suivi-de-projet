@@ -1,0 +1,43 @@
+.nowrap {
+    white-space: nowrap;
+}
+
+.ferme, .ferme td {
+    background: #ccc;
+}
+
+span[data-toggle="tooltip"] {
+    border-bottom: 1px dashed #666;
+}
+
+body {
+    position: relative;
+}
+
+#lightbox {
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+#lightbox-img {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+#lightbox-close {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    font-size: 3em;
+    cursor: pointer;
+}
+
+.lightbox-off {
+    display: none;
+}
