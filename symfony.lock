@@ -2,9 +2,6 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
-    "container-interop/container-interop": {
-        "version": "1.2.0"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -591,22 +588,7 @@
     "zendframework/zend-feed": {
         "version": "2.12.0"
     },
-    "zendframework/zend-http": {
-        "version": "2.11.2"
-    },
-    "zendframework/zend-loader": {
-        "version": "2.6.1"
-    },
-    "zendframework/zend-servicemanager": {
-        "version": "3.4.0"
-    },
     "zendframework/zend-stdlib": {
         "version": "3.2.1"
-    },
-    "zendframework/zend-uri": {
-        "version": "2.7.1"
-    },
-    "zendframework/zend-validator": {
-        "version": "2.13.0"
     }
 }
