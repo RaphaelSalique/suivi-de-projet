@@ -1485,16 +1485,16 @@
         },
         {
             "name": "fresh/doctrine-enum-bundle",
-            "version": "v7.3.2",
+            "version": "v7.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fre5h/DoctrineEnumBundle.git",
-                "reference": "a2b9788667ae5f0608aeedbf35243146d9b80130"
+                "reference": "8c6f3fe6fc260158163c4fc5663a529f3a8f9f05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fre5h/DoctrineEnumBundle/zipball/a2b9788667ae5f0608aeedbf35243146d9b80130",
-                "reference": "a2b9788667ae5f0608aeedbf35243146d9b80130",
+                "url": "https://api.github.com/repos/fre5h/DoctrineEnumBundle/zipball/8c6f3fe6fc260158163c4fc5663a529f3a8f9f05",
+                "reference": "8c6f3fe6fc260158163c4fc5663a529f3a8f9f05",
                 "shasum": ""
             },
             "require": {
@@ -1567,7 +1567,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-03T09:09:17+00:00"
+            "time": "2021-06-12T15:57:47+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
