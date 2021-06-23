@@ -120,9 +120,6 @@
     "laminas/laminas-escaper": {
         "version": "2.7.0"
     },
-    "laminas/laminas-eventmanager": {
-        "version": "3.3.0"
-    },
     "laminas/laminas-feed": {
         "version": "2.14.1"
     },
